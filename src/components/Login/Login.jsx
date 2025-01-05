@@ -26,7 +26,7 @@ export function Login() {
   };
 
   return (
-    <AuthForm btnText={'Log In'}>
+    <AuthForm btnText={'Log In'} intent={'login'}>
       <h2>Log In</h2>
       <AuthInputWrapper
         name="email"

@@ -43,7 +43,7 @@ export function Register() {
   };
 
   return (
-    <AuthForm btnText={'Sign Up'}>
+    <AuthForm btnText={'Sign Up'} intent={'register'}>
       <h2>Register</h2>
       <AuthInputWrapper
         name="username"
