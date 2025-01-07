@@ -76,8 +76,14 @@ export function Register() {
         err="Please enter a password"
         ref={pwRef}
         showError={showPwErr}
-        handleBlur={validatePw}
-        handleChange={() => removeErrOnValidation(showPwErr, validatePw)}
+        handleBlur={() => {
+          validatePw();
+          validateConfirmPw();
+        }}
+        handleChange={() => {
+          removeErrOnValidation(showPwErr, validatePw);
+          removeErrOnValidation(showConfirmPwErr, validateConfirmPw);
+        }}
       />
       <AuthInputWrapper
         name="confirmPw"

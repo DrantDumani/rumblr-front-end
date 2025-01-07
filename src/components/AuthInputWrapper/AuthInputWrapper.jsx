@@ -1,5 +1,6 @@
 import { forwardRef, useId } from 'react';
 import PropTypes from 'prop-types';
+import styles from './AuthInputWrapper.module.css';
 
 export const AuthInputWrapper = forwardRef(function AuthInputWrapper(
   {
@@ -17,9 +18,12 @@ export const AuthInputWrapper = forwardRef(function AuthInputWrapper(
   const id = useId();
 
   return (
-    <div>
-      <label htmlFor={id}>{label}</label>
+    <div className={styles.inputWrapper}>
+      <label className={styles.label} htmlFor={id}>
+        {label}
+      </label>
       <input
+        className={styles.input}
         ref={ref}
         id={id}
         name={name}
@@ -28,8 +32,9 @@ export const AuthInputWrapper = forwardRef(function AuthInputWrapper(
         maxLength={maxLength}
         onBlur={handleBlur}
         onChange={handleChange}
+        placeholder=""
       />
-      {showError && <p>{err}</p>}
+      {showError && <p className={styles.authError}>{err}</p>}
     </div>
   );
 });

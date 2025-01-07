@@ -2,6 +2,7 @@ import { Login } from '../../components/Login/Login';
 import { Register } from '../../components/Register/Register';
 import { Footer } from '../../components/Footer/Footer';
 import { useState } from 'react';
+import styles from './Auth.module.css';
 
 export function Auth() {
   const [showLoginForm, setShowLoginForm] = useState(true);
@@ -9,25 +10,37 @@ export function Auth() {
   return (
     <>
       <header>
-        <h1>Rumblr</h1>
+        <h1 className={styles.titleLogo}>Rumblr</h1>
       </header>
-      <main>
+      <main className={styles.authMain}>
         {showLoginForm ? (
-          <>
+          <div>
             <Login />
-            <p>
+            <p className={styles.formToggle}>
               Don&apos;t have a account? Click here to{' '}
-              <button onClick={() => setShowLoginForm(false)}>Sign Up</button>!
+              <button
+                className={styles.toggleBtn}
+                onClick={() => setShowLoginForm(false)}
+              >
+                Sign Up
+              </button>
+              !
             </p>
-          </>
+          </div>
         ) : (
-          <>
+          <div>
             <Register />
-            <p>
+            <p className={styles.formToggle}>
               Already have an account? Click here to{' '}
-              <button onClick={() => setShowLoginForm(true)}>Log In</button>!
+              <button
+                className={styles.toggleBtn}
+                onClick={() => setShowLoginForm(true)}
+              >
+                Log In
+              </button>
+              !
             </p>
-          </>
+          </div>
         )}
       </main>
       <Footer />
