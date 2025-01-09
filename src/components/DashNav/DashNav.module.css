@@ -1,0 +1,101 @@
+.navFlex1 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0;
+  justify-content: space-between;
+}
+
+@media (min-width: 1280px) {
+  .listItemBtn {
+    display: none;
+  }
+}
+
+.navHamburger {
+  border: none;
+  background-color: inherit;
+  cursor: pointer;
+
+  svg {
+    width: 33px;
+    height: auto;
+  }
+}
+
+.logoLink {
+  font-family: SixtyFour, 'Franklin Gothic Medium', 'Arial Narrow', Arial,
+    sans-serif;
+  font-size: 1.8rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.ulNested {
+  display: none;
+  height: 100%;
+}
+
+@media (min-width: 1280px) {
+  .ulNested {
+    display: flex;
+  }
+}
+
+.navLink {
+  color: inherit;
+  text-decoration: none;
+  font-size: 1.5rem;
+  display: inline-block;
+  height: 100%;
+  padding: 0.4rem;
+
+  &:hover {
+    background-color: #244368;
+  }
+}
+
+.navLink__active {
+  border-bottom: 2.5px solid #fff;
+}
+
+.formListItem {
+  width: 100%;
+  max-width: 280px;
+}
+
+.searchForm {
+  position: relative;
+  width: 100%;
+}
+
+.searchLabel {
+  position: absolute;
+  top: 8.5px;
+  left: 5px;
+}
+
+.searchInput {
+  width: 100%;
+  background-color: #103257;
+  border-radius: 0.75rem;
+  padding: 0.5rem 0.3rem 0.5rem 1.625rem;
+  color: inherit;
+  border: none;
+
+  &:focus {
+    outline: 2px solid #77ffff;
+  }
+}
+
+.navFlex2 {
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 0;
+}
+
+@media (min-width: 1280px) {
+  .navFlex2 {
+    display: none;
+    padding: 1.5rem 0;
+  }
+}
