@@ -51,12 +51,25 @@ body {
   color: #fff;
 }
 
+ul {
+  list-style: none;
+}
+
 #root {
+  max-width: 1100px;
+  /* might remove this since you want to have infinite scroll on dashboard */
   min-height: 100%;
-  padding: 3.5rem 1rem 1rem;
+  margin: 0 auto;
+  padding: 1rem;
   font-family: Rubik, 'Courier New', Courier, monospace;
   display: flex;
   flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  #root {
+    padding: 2rem;
+  }
 }
 
 main {
