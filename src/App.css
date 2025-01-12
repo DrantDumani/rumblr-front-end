@@ -46,9 +46,17 @@ body {
   height: 100%;
 }
 
+:root {
+  --bg-color: #001935;
+  --font-color: #fff;
+  --menu-color: #a6afb8;
+  --menu-bg-hover: #244368;
+  --mobile-pad: 1rem;
+}
+
 body {
-  background-color: #001935;
-  color: #fff;
+  background-color: var(--bg-color);
+  color: var(--font-color);
 }
 
 ul {
@@ -60,10 +68,12 @@ ul {
   /* might remove this since you want to have infinite scroll on dashboard */
   min-height: 100%;
   margin: 0 auto;
-  padding: 1rem;
+  /* padding: 1rem; */
+  /* Apply padding to child elements */
   font-family: Rubik, 'Courier New', Courier, monospace;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 @media (min-width: 768px) {
