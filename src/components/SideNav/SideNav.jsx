@@ -9,16 +9,17 @@ import Audio from '../../assets/icons/audio_side_nav.svg?react';
 import Video from '../../assets/icons/video_side_nav.svg?react';
 import Messages from '../../assets/icons/messages_side_nav.svg?react';
 import Settings from '../../assets/icons/settings.svg?react';
+import PropTypes from 'prop-types';
 
-export function SideNav({ showSideNav, hideNav }) {
+export function SideNav({ showMobileSideNav = false, hideMobileSideNav }) {
   return (
     <nav
-      className={`${styles.sideNav} ${showSideNav && styles['sideNav--active']}`}
+      className={`${styles.sideNav} ${showMobileSideNav && styles['sideNav--active']}`}
     >
       <ul className={styles.sideNav_ul}>
         <li className={styles.sideNav__item}>
           <button
-            onClick={hideNav}
+            onClick={hideMobileSideNav}
             className={`${styles.sideNavOption} ${styles.sideNavOption__closeBtn}`}
           >
             &#10006;
@@ -82,3 +83,8 @@ export function SideNav({ showSideNav, hideNav }) {
     </nav>
   );
 }
+
+SideNav.propTypes = {
+  showMobileSideNav: PropTypes.bool,
+  hideMobileSideNav: PropTypes.func,
+};

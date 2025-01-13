@@ -1,7 +1,7 @@
 import styles from './ModalBackdrop.module.css';
 import { useEffect } from 'react';
 
-export function ModalBackdrop({ children }) {
+export function ModalBackdrop() {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
 
@@ -9,5 +9,5 @@ export function ModalBackdrop({ children }) {
       document.body.style.overflow = 'scroll';
     };
   }, []);
-  return <div className={styles.modalBackdrop}>{children}</div>;
+  return <div className={styles.modalBackdrop}></div>;
 }

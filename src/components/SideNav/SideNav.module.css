@@ -4,6 +4,7 @@
   width: 280px;
   background-color: var(--bg-color);
   top: 0;
+  left: 0;
   height: 100%;
   transform: translateX(-280px);
   padding: 1rem;

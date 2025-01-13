@@ -3,6 +3,7 @@ import Search from '../../assets/icons/search.svg?react';
 import { Link, NavLink } from 'react-router';
 import { useId } from 'react';
 import styles from './DashNav.module.css';
+import PropTypes from 'prop-types';
 
 export function DashNav({ showNav }) {
   const id = useId();
@@ -97,3 +98,7 @@ export function DashNav({ showNav }) {
     </nav>
   );
 }
+
+DashNav.propTypes = {
+  showNav: PropTypes.func,
+};

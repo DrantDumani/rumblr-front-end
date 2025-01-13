@@ -22,14 +22,12 @@ export function Dashboard() {
         <DashNav showNav={showNav} />
       </header>
       {/* Put the side nav in main so I can put them in a flex box or something */}
-      {showSideNav && (
-        <ModalBackdrop>
-          <SideNav showSideNav={showSideNav} hideNav={hideNav} />
-        </ModalBackdrop>
-      )}
-      <main inert={showSideNav ? '' : null}>
-        {/* <SideNav showSideNav={showSideNav} hideNav={hideNav} /> */}
+      {showSideNav && <ModalBackdrop />}
+      <div inert={showSideNav ? null : ''}>
+        <SideNav showMobileSideNav={showSideNav} hideMobileSideNav={hideNav} />
+      </div>
 
+      <main inert={showSideNav ? '' : null}>
         <p>
           The standard Lorem Ipsum passage, used since the 1500s "Lorem ipsum
           dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
