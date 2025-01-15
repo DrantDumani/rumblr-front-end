@@ -1,0 +1,27 @@
+.navFlex2 {
+  display: flex;
+  justify-content: center;
+}
+
+.navLink {
+  color: inherit;
+  text-decoration: none;
+  font-size: 1.5rem;
+  display: inline-block;
+  height: 100%;
+  padding: 0.8rem;
+
+  &:hover {
+    background-color: var(--menu-bg-hover);
+  }
+}
+
+@media (min-width: 768px) {
+  .navLink {
+    padding-top: 0;
+  }
+}
+
+.navLink__active {
+  border-bottom: 2.5px solid #0897d3;
+}

@@ -11,7 +11,7 @@
   transition: transform 0.15s ease-in;
   overflow-y: scroll;
   scrollbar-width: none;
-  z-index: 2;
+  z-index: 9999;
 }
 
 .sideNav--active {

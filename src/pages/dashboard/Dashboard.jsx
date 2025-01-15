@@ -1,8 +1,10 @@
 import { DashNav } from '../../components/DashNav/DashNav';
 import { SideNav } from '../../components/SideNav/SideNav';
 import { ModalBackdrop } from '../../components/ModalBackdrop/ModalBackdrop';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './Dashboard.module.css';
+import { SearchFrom } from '../../components/SearchForm/SearchForm';
+import { HeaderLinks } from '../../components/HeaderLinks/HeaderLinks';
 
 export function Dashboard() {
   const [showSideNav, setShowSideNav] = useState(false);
@@ -10,23 +12,49 @@ export function Dashboard() {
   const showNav = () => setShowSideNav(true);
   const hideNav = () => setShowSideNav(false);
 
-  // header, main, footer
-  // header will contain a nav
-  // there will be another nav that acts as side nav options
-  // main content holds the post list and side nav, which overflows.
-  // should there even be a footer
-  // the footer should go underneath the main. Sure. Why not
+  // state for showing / hiding part of the header
+  const [hideHeaderOptions, setHideHeaderOptions] = useState(false);
+
+  useEffect(() => {
+    let scrollPos = 0;
+
+    const toggleNavOptions = () => {
+      if (window.scrollY > scrollPos) {
+        setHideHeaderOptions(true);
+      } else {
+        setHideHeaderOptions(false);
+      }
+
+      scrollPos = window.scrollY;
+    };
+
+    window.addEventListener('scroll', toggleNavOptions);
+
+    return () => window.removeEventListener('scroll', toggleNavOptions);
+  }, []);
+
   return (
     <>
-      <header inert={showSideNav ? '' : null} className={styles.header}>
-        <DashNav showNav={showNav} />
+      <header inert={showSideNav ? '' : null} className={`${styles.header}`}>
+        <DashNav showNav={showNav} hideOptions={hideHeaderOptions} />
       </header>
-      {/* Put the side nav in main so I can put them in a flex box or something */}
+      <div
+        inert={hideHeaderOptions ? '' : null}
+        className={`${styles.mobile_topBar} ${hideHeaderOptions ? styles['mobile_topBar--scrollHide'] : ''} `}
+      >
+        <div className={styles.searchWrapper}>
+          <SearchFrom />
+        </div>
+        <nav aria-label="mobileNav">
+          <HeaderLinks />
+        </nav>
+      </div>
+
       {showSideNav && <ModalBackdrop />}
       <div inert={showSideNav ? null : ''}>
         <SideNav showMobileSideNav={showSideNav} hideMobileSideNav={hideNav} />
       </div>
-
+      {/* Put the side nav in main so I can put them in a flex box or something */}
       <main inert={showSideNav ? '' : null}>
         <p>
           The standard Lorem Ipsum passage, used since the 1500s "Lorem ipsum

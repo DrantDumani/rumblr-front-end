@@ -52,6 +52,7 @@ body {
   --menu-color: #a6afb8;
   --menu-bg-hover: #244368;
   --mobile-pad: 1rem;
+  --tab-pad: 2rem;
 }
 
 body {
@@ -76,11 +77,11 @@ ul {
   position: relative;
 }
 
-@media (min-width: 768px) {
+/* @media (min-width: 768px) {
   #root {
     padding: 2rem;
   }
-}
+} */
 
 main {
   flex-grow: 1;

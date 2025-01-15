@@ -1,0 +1,23 @@
+.searchForm {
+  position: relative;
+  width: 290px;
+}
+
+.searchLabel {
+  position: absolute;
+  top: 8.5px;
+  left: 5px;
+}
+
+.searchInput {
+  width: 100%;
+  background-color: #103257;
+  border-radius: 0.75rem;
+  padding: 0.5rem 0.3rem 0.5rem 1.625rem;
+  color: inherit;
+  border: none;
+
+  &:focus {
+    outline: 2.5px solid #77ffff;
+  }
+}

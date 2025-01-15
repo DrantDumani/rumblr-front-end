@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 
 export function SideNav({ showMobileSideNav = false, hideMobileSideNav }) {
   return (
-    <nav
+    <menu
       className={`${styles.sideNav} ${showMobileSideNav && styles['sideNav--active']}`}
     >
       <ul className={styles.sideNav_ul}>
@@ -67,20 +67,26 @@ export function SideNav({ showMobileSideNav = false, hideMobileSideNav }) {
             <span>Video</span>
           </button>
         </li>
-        <li className={styles.sideNav__item}>
-          <Link className={styles.sideNavOption}>
-            <Messages aria-hidden="true" />
-            <span>Messages</span>
-          </Link>
-        </li>
-        <li className={styles.sideNav__item}>
-          <Link className={styles.sideNavOption}>
-            <Settings aria-hidden="true" />
-            <span>Settings</span>
-          </Link>
+        <li>
+          <nav aria-label="sidebar">
+            <ul>
+              <li className={styles.sideNav__item}>
+                <Link className={styles.sideNavOption}>
+                  <Messages aria-hidden="true" />
+                  <span>Messages</span>
+                </Link>
+              </li>
+              <li className={styles.sideNav__item}>
+                <Link className={styles.sideNavOption}>
+                  <Settings aria-hidden="true" />
+                  <span>Settings</span>
+                </Link>
+              </li>
+            </ul>
+          </nav>
         </li>
       </ul>
-    </nav>
+    </menu>
   );
 }
 
