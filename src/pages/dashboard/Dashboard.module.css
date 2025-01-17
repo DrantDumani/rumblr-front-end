@@ -45,3 +45,59 @@
     display: none;
   }
 }
+
+@media (min-width: 1280px) {
+  .sideBar--mobileOnly {
+    display: none;
+  }
+}
+
+.flexWrapper {
+  padding: 0 var(--mobile-pad) var(--mobile-pad);
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .flexWrapper {
+    padding: 0 var(--tab-pad) var(--tab-pad);
+  }
+}
+
+@media (min-width: 1280px) {
+  .flexWrapper {
+    flex-direction: row;
+  }
+}
+
+.sideBarWrapper {
+  display: none;
+}
+
+@media (min-width: 1280px) {
+  .sideBarWrapper {
+    display: block;
+    position: sticky;
+    top: 60px;
+    max-height: 100vh;
+    overflow-y: scroll;
+    flex-shrink: 0;
+    scrollbar-width: thin;
+    overscroll-behavior: contain;
+    scrollbar-color: #667586 #001935;
+  }
+}
+
+/* temp */
+.postListWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+/* temp */
+.post {
+  width: 400px;
+  height: 300px;
+  background-color: pink;
+}

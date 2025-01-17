@@ -17,7 +17,9 @@ export function SideNav({ showMobileSideNav = false, hideMobileSideNav }) {
       className={`${styles.sideNav} ${showMobileSideNav && styles['sideNav--active']}`}
     >
       <ul className={styles.sideNav_ul}>
-        <li className={styles.sideNav__item}>
+        <li
+          className={`${styles.sideNav__item} ${styles['sideNav__item--noMobile']}`}
+        >
           <button
             onClick={hideMobileSideNav}
             className={`${styles.sideNavOption} ${styles.sideNavOption__closeBtn}`}
