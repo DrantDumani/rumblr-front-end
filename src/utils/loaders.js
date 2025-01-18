@@ -9,11 +9,23 @@ export function authLoader() {
   return true;
 }
 
-export function dashboardLoader() {
+export async function dashboardLoader() {
   const token = localStorage.getItem('token');
-  if (!token) {
-    return redirect('/auth');
+  let validToken = !!token;
+
+  if (token) {
+    const resp = await handleData('posts');
+
+    if (resp.ok) {
+      const postList = await resp.json();
+      return postList;
+    } else if (resp.status === 401) {
+      localStorage.removeItem('token');
+      validToken = false;
+    }
+
+    if (!validToken) {
+      return redirect('./auth');
+    }
   }
-  // if there is a token, use it to make a request to api for dashboard posts
-  return true;
 }

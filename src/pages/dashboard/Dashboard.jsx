@@ -5,9 +5,13 @@ import { useState, useEffect } from 'react';
 import styles from './Dashboard.module.css';
 import { SearchFrom } from '../../components/SearchForm/SearchForm';
 import { HeaderLinks } from '../../components/HeaderLinks/HeaderLinks';
+import { useLoaderData } from 'react-router';
+import { Post } from '../../components/Post/Post';
 
 export function Dashboard() {
+  const postData = useLoaderData();
   const [showSideNav, setShowSideNav] = useState(false);
+  const [posts, setPosts] = useState(postData);
 
   const showNav = () => setShowSideNav(true);
   const hideNav = () => setShowSideNav(false);
@@ -64,22 +68,15 @@ export function Dashboard() {
         </div>
         <main className={styles.main} inert={showSideNav ? '' : null}>
           <div className={styles.postListWrapper}>
-            <div className={styles.post}></div>
-            <div className={styles.post}></div>
-            <div className={styles.post}></div>
-            <div className={styles.post}></div>
-            <div className={styles.post}></div>
-            <div className={styles.post}></div>
-            <div className={styles.post}></div>
-            <div className={styles.post}></div>
-            <div className={styles.post}></div>
-            <div className={styles.post}></div>
+            {posts.map((post) => (
+              <Post key={post.id} post={post} />
+            ))}
           </div>
         </main>
-        <footer inert={showSideNav ? '' : null}>
+        {/* <footer inert={showSideNav ? '' : null}>
           Footer stuff but we made the post extra long so you could see stuff
           when the menu is up
-        </footer>
+        </footer> */}
       </div>
     </>
   );
