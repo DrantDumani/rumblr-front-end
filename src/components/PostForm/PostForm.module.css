@@ -1,0 +1,102 @@
+.postForm__wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 700;
+  background-color: #fff;
+  width: 100%;
+  max-width: 480px;
+  overflow: hidden;
+}
+
+.postForm__header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7rem var(--post-padding);
+  border-bottom: 1px solid #c1c1c1;
+}
+
+.user_pfp {
+  width: var(--pfp-width);
+}
+
+@media (min-width: 768px) {
+  .postForm__wrapper {
+    border-radius: 12px;
+  }
+}
+
+.postForm__username {
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: #000;
+}
+
+.postForm__fieldset {
+  border: none;
+}
+
+.postForm__fieldset--botBorder {
+  border-bottom: 1px solid #c1c1c1;
+  padding: 0 1rem 1rem;
+}
+
+.postForm__input {
+  padding: 1rem;
+  width: 100%;
+  font-family: inherit;
+  resize: none;
+  border: none;
+  height: 250px;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.postForm__tag {
+  background-color: #e9e9ed;
+  border: none;
+  outline: none;
+  border-radius: 1rem;
+  padding: 0.5rem 0 0.5rem 0.8rem;
+  font-size: 1rem;
+  max-width: 100%;
+  width: 800px;
+  resize: none;
+  overflow: hidden;
+}
+
+/* .postForm__tagBtn {
+  margin-left: var(--post-padding);
+  margin-bottom: 1rem;
+} */
+
+.postForm__tagBtn,
+.postForm__btn {
+  border-radius: 1rem;
+  border: none;
+  padding: 0.5rem 0.7rem;
+  color: #606162;
+  font-size: 0.9375rem;
+  font-family: inherit;
+  cursor: pointer;
+
+  &:hover {
+    color: #000;
+    background-color: #e9e9ed;
+  }
+}
+
+.postForm__btnWrapper {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.postForm__btn {
+  font-weight: 500;
+  font-size: 1rem;
+}
