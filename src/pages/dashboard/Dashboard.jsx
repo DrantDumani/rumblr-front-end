@@ -7,11 +7,15 @@ import { SearchFrom } from '../../components/SearchForm/SearchForm';
 import { HeaderLinks } from '../../components/HeaderLinks/HeaderLinks';
 import { useLoaderData } from 'react-router';
 import { Post } from '../../components/Post/Post';
+import { PostForm } from '../../components/PostForm/PostForm';
 
 export function Dashboard() {
   const postData = useLoaderData();
   const [showSideNav, setShowSideNav] = useState(false);
   const [posts, setPosts] = useState(postData);
+  const [showPostModal, setShowPostModal] = useState(false);
+
+  const togglePostModal = () => setShowPostModal((bool) => !bool);
 
   const showNav = () => setShowSideNav(true);
   const hideNav = () => setShowSideNav(false);
@@ -54,7 +58,7 @@ export function Dashboard() {
         </nav>
       </div>
 
-      {showSideNav && <ModalBackdrop />}
+      {(showSideNav || showPostModal) && <ModalBackdrop />}
       <div
         className={styles['sideBar--mobileOnly']}
         inert={showSideNav ? null : ''}
@@ -64,7 +68,7 @@ export function Dashboard() {
 
       <div className={styles.flexWrapper}>
         <div className={styles.sideBarWrapper}>
-          <SideNav />
+          <SideNav togglePostModal={togglePostModal} />
         </div>
         <main className={styles.main} inert={showSideNav ? '' : null}>
           <div className={styles.postListWrapper}>
@@ -78,6 +82,7 @@ export function Dashboard() {
           when the menu is up
         </footer> */}
       </div>
+      {showPostModal && <PostForm togglePostModal={togglePostModal} />}
     </>
   );
 }

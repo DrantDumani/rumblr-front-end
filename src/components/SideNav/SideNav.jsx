@@ -11,7 +11,11 @@ import Messages from '../../assets/icons/messages_side_nav.svg?react';
 import Settings from '../../assets/icons/settings.svg?react';
 import PropTypes from 'prop-types';
 
-export function SideNav({ showMobileSideNav = false, hideMobileSideNav }) {
+export function SideNav({
+  showMobileSideNav = false,
+  hideMobileSideNav,
+  togglePostModal,
+}) {
   return (
     <menu
       className={`${styles.sideNav} ${showMobileSideNav && styles['sideNav--active']}`}
@@ -28,7 +32,7 @@ export function SideNav({ showMobileSideNav = false, hideMobileSideNav }) {
           </button>
         </li>
         <li className={styles.sideNav__item}>
-          <button className={styles.sideNavOption}>
+          <button onClick={togglePostModal} className={styles.sideNavOption}>
             <Text aria-hidden="true" />
             <span>Text</span>
           </button>
@@ -95,4 +99,5 @@ export function SideNav({ showMobileSideNav = false, hideMobileSideNav }) {
 SideNav.propTypes = {
   showMobileSideNav: PropTypes.bool,
   hideMobileSideNav: PropTypes.func,
+  togglePostModal: PropTypes.func,
 };

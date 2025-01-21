@@ -38,23 +38,23 @@ export function PostForm({ togglePostModal }) {
         <span className={styles.postForm__username}>{user.username}</span>
       </div>
       <form>
-        <fieldset className={styles.postForm__fieldset}>
+        <div className={styles.postForm__formDiv}>
           <textarea className={styles.postForm__input}></textarea>
-        </fieldset>
-        <fieldset
-          className={`${styles.postForm__fieldset} ${styles['postForm__fieldset--botBorder']}`}
+        </div>
+        <div
+          className={`${styles.postForm__formDiv} ${styles['postForm__formDiv--botBorder']}`}
         >
           {tagInputs.map((tag, i) => (
-            <textarea
-              // style={{ width: `${20 + tag[0].length * 5}px` }}
-              rows={1}
-              // cols={tag[0].length || 1}
-              className={styles.postForm__tag}
-              key={tag[1]}
-              value={tag[0]}
-              onChange={(e) => changeTag(e.target.value, i)}
-              maxLength={140}
-            ></textarea>
+            <div key={tag[1]} className={styles.postForm__tagWrapper}>
+              <span className={styles.postForm__tagSpan}>{tag[0]}</span>
+              <textarea
+                rows={1}
+                className={styles.postForm__tag}
+                value={tag[0]}
+                onChange={(e) => changeTag(e.target.value, i)}
+                maxLength={140}
+              ></textarea>
+            </div>
           ))}
           {showTagBtn && (
             <button
@@ -65,7 +65,7 @@ export function PostForm({ togglePostModal }) {
               #add tags
             </button>
           )}
-        </fieldset>
+        </div>
         <div className={styles.postForm__btnWrapper}>
           <button
             onClick={togglePostModal}

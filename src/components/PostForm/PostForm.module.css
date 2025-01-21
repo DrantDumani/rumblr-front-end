@@ -34,11 +34,11 @@
   color: #000;
 }
 
-.postForm__fieldset {
+.postForm__formDiv {
   border: none;
 }
 
-.postForm__fieldset--botBorder {
+.postForm__formDiv--botBorder {
   border-bottom: 1px solid #c1c1c1;
   padding: 0 1rem 1rem;
 }
@@ -56,15 +56,38 @@
   }
 }
 
+.postForm__tagWrapper {
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  min-width: 2rem;
+  min-height: 2rem;
+  max-width: 100%;
+}
+
+.postForm__tagSpan {
+  display: inline-block;
+  visibility: hidden;
+  white-space: pre-wrap;
+  width: 100%;
+  padding: 0.5rem;
+  word-wrap: break-word;
+}
+
 .postForm__tag {
+  position: absolute;
+  font-family: inherit;
+  top: 0;
+  left: 0;
   background-color: #e9e9ed;
   border: none;
   outline: none;
   border-radius: 1rem;
-  padding: 0.5rem 0 0.5rem 0.8rem;
+  padding: 0.5rem;
   font-size: 1rem;
   max-width: 100%;
-  width: 800px;
+  width: 100%;
+  height: 100%;
   resize: none;
   overflow: hidden;
 }

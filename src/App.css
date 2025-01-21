@@ -53,6 +53,8 @@ body {
   --menu-bg-hover: #244368;
   --mobile-pad: 1rem;
   --tab-pad: 2rem;
+  --pfp-width: 1.875rem;
+  --post-padding: 1rem;
 }
 
 body {
@@ -74,7 +76,6 @@ ul {
   font-family: Rubik, 'Courier New', Courier, monospace;
   display: flex;
   flex-direction: column;
-  position: relative;
 }
 
 /* @media (min-width: 768px) {
