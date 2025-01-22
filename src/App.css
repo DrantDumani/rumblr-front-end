@@ -41,6 +41,10 @@
   box-sizing: border-box;
 }
 
+html {
+  scrollbar-width: thin;
+}
+
 html,
 body {
   height: 100%;
