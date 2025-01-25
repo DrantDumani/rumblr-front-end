@@ -1,5 +1,5 @@
 .postForm__wrapper {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -34,16 +34,28 @@
   color: #000;
 }
 
-.postForm__formDiv {
-  border: none;
+.postForm__inputWrapper {
+  display: flex;
 }
 
 .postForm__formDiv--botBorder {
   border-bottom: 1px solid #c1c1c1;
   padding: 0 1rem 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.postForm__label {
+  display: inline-block;
+  width: 1px;
+  height: 1px;
+  flex-grow: 0;
+  overflow: hidden;
 }
 
 .postForm__input {
+  scrollbar-width: thin;
   padding: 1rem;
   width: 100%;
   font-family: inherit;
@@ -91,11 +103,6 @@
   resize: none;
   overflow: hidden;
 }
-
-/* .postForm__tagBtn {
-  margin-left: var(--post-padding);
-  margin-bottom: 1rem;
-} */
 
 .postForm__tagBtn,
 .postForm__btn {
