@@ -2,15 +2,46 @@ import styles from './PostForm.module.css';
 import PropTypes from 'prop-types';
 import { jwtDecode } from 'jwt-decode';
 import anon from '../../assets/icons/incognito.svg';
+import Photo from '../../assets/icons/photo_side_nav.svg?react';
+import Audio from '../../assets/icons/audio_side_nav.svg?react';
 import { TagInput } from '../TagInput/TagInput';
 import { useState, useId } from 'react';
 
-export function PostForm({ togglePostModal }) {
+export function PostForm({ togglePostModal, postModal }) {
   const token = localStorage.getItem('token');
   const user = jwtDecode(token);
   const [tagInputs, setTagInputs] = useState([]);
   const [showTagBtn, setShowTagBtn] = useState(true);
-  const textAreaId = useId();
+
+  // state for media toggling
+  const [media, setMedia] = useState(null);
+  const contentInputId = useId();
+  const fileLimit = 2097152;
+
+  const changeMedia = (e) => {
+    if (postModal === 'photo') {
+      const imgFile = e.target.files[0];
+      const src = URL.createObjectURL(imgFile);
+      const imgObj = { file: imgFile, src };
+      setMedia(imgObj);
+    } else if (postModal === 'audio') {
+      const audio = e.target.files[0];
+      const src = URL.createObjectURL(audio);
+      const audioObj = { file: audio, src };
+      setMedia(audioObj);
+    }
+  };
+
+  const removeMedia = () => {
+    URL.revokeObjectURL(media.src);
+    setMedia(null);
+  };
+
+  const submitPost = () => {
+    // prevent default form submission
+    // get post content based on the type of post
+    // submit the post
+  };
 
   const createNewTag = () => {
     const key = crypto.randomUUID();
@@ -69,13 +100,150 @@ export function PostForm({ togglePostModal }) {
       </div>
       <form>
         <div className={styles.postForm__inputWrapper}>
-          <label className={styles.postForm__label} htmlFor={textAreaId}>
-            Post
-          </label>
-          <textarea
-            id={textAreaId}
-            className={styles.postForm__input}
-          ></textarea>
+          {postModal === 'text' && (
+            <>
+              <label
+                className={styles.postForm__label}
+                htmlFor={contentInputId}
+              >
+                Post
+              </label>
+              <textarea
+                id={contentInputId}
+                className={styles.postForm__input}
+              ></textarea>
+            </>
+          )}
+
+          {postModal === 'photo' &&
+            (media ? (
+              <>
+                <div className={styles.postForm__imgWrapper}>
+                  <img
+                    className={`${media.file.size > fileLimit ? styles['postForm__img--exceeded'] : null}`}
+                    alt=""
+                    src={media.src}
+                  />
+                  <button
+                    type="button"
+                    onClick={removeMedia}
+                    aria-label="Delete media"
+                  >
+                    &#10006;
+                  </button>
+                  {media.file.size > fileLimit && (
+                    <p className={styles.postForm__warning}>
+                      File size must under 2mb
+                    </p>
+                  )}
+                </div>
+              </>
+            ) : (
+              <>
+                <label
+                  htmlFor={contentInputId}
+                  className={styles['postForm__label--photo']}
+                >
+                  <Photo aria-hidden="true" />
+                  <span>Custom photo</span>
+                </label>
+                <input
+                  id={contentInputId}
+                  className={styles['postForm__input--photo']}
+                  type="file"
+                  accept="image/*"
+                  onChange={changeMedia}
+                />
+              </>
+            ))}
+
+          {postModal === 'quote' && (
+            <>
+              <label
+                className={styles.postForm__label}
+                htmlFor={contentInputId}
+              >
+                Post
+              </label>
+              <textarea
+                id={contentInputId}
+                className={`${styles.postForm__input} ${styles['postForm__input--quote']}`}
+              ></textarea>
+            </>
+          )}
+
+          {postModal === 'link' && (
+            <>
+              <label
+                className={styles.postForm__label}
+                htmlFor={contentInputId}
+              >
+                Post
+              </label>
+              <textarea
+                id={contentInputId}
+                className={`${styles.postForm__input}`}
+              ></textarea>
+            </>
+          )}
+
+          {postModal === 'chat' && (
+            <>
+              <label
+                className={styles.postForm__label}
+                htmlFor={contentInputId}
+              >
+                Post
+              </label>
+              <textarea
+                id={contentInputId}
+                className={`${styles.postForm__input} ${styles['postForm__input--chat']}`}
+              ></textarea>
+            </>
+          )}
+
+          {postModal === 'audio' &&
+            (media ? (
+              <>
+                <div className={styles.postForm__imgWrapper}>
+                  {/* <img
+                    className={`${media.file.size > fileLimit ? styles['postForm__img--exceeded'] : null}`}
+                    alt=""
+                    src={media.src}
+                  /> */}
+                  <audio controls src={media.src}></audio>
+                  <button
+                    type="button"
+                    onClick={removeMedia}
+                    aria-label="Delete media"
+                  >
+                    &#10006;
+                  </button>
+                  {media.file.size > fileLimit && (
+                    <p className={styles.postForm__warning}>
+                      File size must under 2mb
+                    </p>
+                  )}
+                </div>
+              </>
+            ) : (
+              <>
+                <label
+                  htmlFor={contentInputId}
+                  className={styles['postForm__label--photo']}
+                >
+                  <Audio aria-hidden="true" />
+                  <span>Custom Audio</span>
+                </label>
+                <input
+                  id={contentInputId}
+                  className={styles['postForm__input--photo']}
+                  type="file"
+                  accept="audio/*"
+                  onChange={changeMedia}
+                />
+              </>
+            ))}
         </div>
         <div className={` ${styles['postForm__formDiv--botBorder']}`}>
           {tagInputs.map((tag, i) => (
@@ -106,7 +274,7 @@ export function PostForm({ togglePostModal }) {
         </div>
         <div className={styles.postForm__btnWrapper}>
           <button
-            onClick={togglePostModal}
+            onClick={() => togglePostModal('')}
             type="button"
             className={styles.postForm__btn}
           >
@@ -123,4 +291,5 @@ export function PostForm({ togglePostModal }) {
 
 PostForm.propTypes = {
   togglePostModal: PropTypes.func,
+  postModal: PropTypes.string,
 };

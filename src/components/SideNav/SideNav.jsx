@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 
 export function SideNav({
   showMobileSideNav = false,
-  hideMobileSideNav,
+  hideMobileSideNav = () => {},
   togglePostModal,
 }) {
   return (
@@ -32,37 +32,73 @@ export function SideNav({
           </button>
         </li>
         <li className={styles.sideNav__item}>
-          <button onClick={togglePostModal} className={styles.sideNavOption}>
+          <button
+            onClick={() => {
+              togglePostModal('text');
+              hideMobileSideNav();
+            }}
+            className={styles.sideNavOption}
+          >
             <Text aria-hidden="true" />
             <span>Text</span>
           </button>
         </li>
         <li className={styles.sideNav__item}>
-          <button className={styles.sideNavOption}>
+          <button
+            onClick={() => {
+              togglePostModal('photo');
+              hideMobileSideNav();
+            }}
+            className={styles.sideNavOption}
+          >
             <Photo aria-hidden="true" />
             <span>Photo</span>
           </button>
         </li>
         <li className={styles.sideNav__item}>
-          <button className={styles.sideNavOption}>
+          <button
+            onClick={() => {
+              togglePostModal('quote');
+              hideMobileSideNav();
+            }}
+            className={styles.sideNavOption}
+          >
             <Quote aria-hidden="true" />
             <span>Quote</span>
           </button>
         </li>
         <li className={styles.sideNav__item}>
-          <button className={styles.sideNavOption}>
+          <button
+            onClick={() => {
+              togglePostModal('link');
+              hideMobileSideNav();
+            }}
+            className={styles.sideNavOption}
+          >
             <Link_svg aria-hidden="true" />
             <span>Link</span>
           </button>
         </li>
         <li className={styles.sideNav__item}>
-          <button className={styles.sideNavOption}>
+          <button
+            onClick={() => {
+              togglePostModal('chat');
+              hideMobileSideNav();
+            }}
+            className={styles.sideNavOption}
+          >
             <Chat aria-hidden="true" />
             <span>Chat</span>
           </button>
         </li>
         <li className={styles.sideNav__item}>
-          <button className={styles.sideNavOption}>
+          <button
+            onClick={() => {
+              togglePostModal('audio');
+              hideMobileSideNav();
+            }}
+            className={styles.sideNavOption}
+          >
             <Audio aria-hidden="true" />
             <span>Audio</span>
           </button>

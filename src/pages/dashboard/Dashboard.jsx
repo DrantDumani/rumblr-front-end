@@ -13,9 +13,9 @@ export function Dashboard() {
   const postData = useLoaderData();
   const [showSideNav, setShowSideNav] = useState(false);
   const [posts, setPosts] = useState(postData);
-  const [showPostModal, setShowPostModal] = useState(false);
+  const [postModal, setPostModal] = useState('');
 
-  const togglePostModal = () => setShowPostModal((bool) => !bool);
+  const togglePostModal = (str) => setPostModal(str);
 
   const showNav = () => setShowSideNav(true);
   const hideNav = () => setShowSideNav(false);
@@ -58,7 +58,7 @@ export function Dashboard() {
         </nav>
       </div>
 
-      {(showSideNav || showPostModal) && <ModalBackdrop />}
+      {(showSideNav || postModal) && <ModalBackdrop />}
       <div
         className={styles['sideBar--mobileOnly']}
         inert={showSideNav ? null : ''}
@@ -82,7 +82,9 @@ export function Dashboard() {
           when the menu is up
         </footer> */}
       </div>
-      {showPostModal && <PostForm togglePostModal={togglePostModal} />}
+      {postModal && (
+        <PostForm togglePostModal={togglePostModal} postModal={postModal} />
+      )}
     </>
   );
 }
