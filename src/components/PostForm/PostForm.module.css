@@ -103,7 +103,8 @@
   font-family: 'Courier New', Courier, monospace;
 }
 
-.postForm__imgWrapper {
+.postForm__imgWrapper,
+.postForm__mediaWrapper {
   width: 100%;
   max-height: var(--post-form-height);
   scrollbar-width: thin;
@@ -146,6 +147,12 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.postForm__warning--noImg {
+  position: static;
+  transform: translate(0, 0);
+  padding: 0.5rem 1rem;
 }
 
 .postForm__tagWrapper {

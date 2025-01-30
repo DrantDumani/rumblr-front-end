@@ -6,7 +6,7 @@ import Photo from '../../assets/icons/photo_side_nav.svg?react';
 import Audio from '../../assets/icons/audio_side_nav.svg?react';
 import { TagInput } from '../TagInput/TagInput';
 import { useState, useId } from 'react';
-import jsmediatags from 'jsmediatags';
+import { AudioWrapper } from '../AudioWrapper/AudioWrapper';
 
 export function PostForm({ togglePostModal, postModal }) {
   const token = localStorage.getItem('token');
@@ -28,25 +28,7 @@ export function PostForm({ togglePostModal, postModal }) {
     } else if (postModal === 'audio') {
       const audio = e.target.files[0];
       console.log(audio);
-
-      const src = URL.createObjectURL(audio);
-      const audioObj = { file: audio, src };
-      // setMedia(audioObj);
-      const test = src.replace('blob:', '');
-      jsmediatags.read(audio, {
-        onSuccess: function ({ tags }) {
-          // console.log(tags.picture);
-          const { data, format } = tags.picture;
-          let base64 = '';
-          for (let i = 0; i < data.length; i++) {
-            base64 += String.fromCharCode(data[i]);
-          }
-          const tempImgSrc = `data:${data.format};base64,${window.btoa(base64)}`;
-          audioObj.imgSrc = tempImgSrc;
-          setMedia(audioObj);
-        },
-        onError: (err) => console.log(err),
-      });
+      setMedia(audio);
     }
   };
 
@@ -135,27 +117,25 @@ export function PostForm({ togglePostModal, postModal }) {
 
           {postModal === 'photo' &&
             (media ? (
-              <>
-                <div className={styles.postForm__imgWrapper}>
-                  <img
-                    className={`${media.file.size > fileLimit ? styles['postForm__img--exceeded'] : null}`}
-                    alt=""
-                    src={media.src}
-                  />
-                  <button
-                    type="button"
-                    onClick={removeMedia}
-                    aria-label="Delete media"
-                  >
-                    &#10006;
-                  </button>
-                  {media.file.size > fileLimit && (
-                    <p className={styles.postForm__warning}>
-                      File size must under 2mb
-                    </p>
-                  )}
-                </div>
-              </>
+              <div className={styles.postForm__mediaWrapper}>
+                <img
+                  className={`${media.file.size > fileLimit ? styles['postForm__img--exceeded'] : null}`}
+                  alt=""
+                  src={media.src}
+                />
+                <button
+                  type="button"
+                  onClick={removeMedia}
+                  aria-label="Delete media"
+                >
+                  &#10006;
+                </button>
+                {media.file.size > fileLimit && (
+                  <p className={styles.postForm__warning}>
+                    File size must under 2mb
+                  </p>
+                )}
+              </div>
             ) : (
               <>
                 <label
@@ -222,29 +202,23 @@ export function PostForm({ togglePostModal, postModal }) {
 
           {postModal === 'audio' &&
             (media ? (
-              <>
-                <div className={styles.postForm__imgWrapper}>
-                  {/*Temp*/}
-                  <img
-                    className={`${media.file.size > fileLimit ? styles['postForm__img--exceeded'] : null}`}
-                    alt=""
-                    src={media.imgSrc}
-                  />
-                  <audio controls src={media.src}></audio>
-                  <button
-                    type="button"
-                    onClick={removeMedia}
-                    aria-label="Delete media"
+              <div className={styles.postForm__mediaWrapper}>
+                <AudioWrapper audio={media} />
+                <button
+                  type="button"
+                  onClick={removeMedia}
+                  aria-label="Delete media"
+                >
+                  &#10006;
+                </button>
+                {media.size > fileLimit && (
+                  <p
+                    className={`${styles.postForm__warning} ${styles['postForm__warning--noImg']}`}
                   >
-                    &#10006;
-                  </button>
-                  {media.file.size > fileLimit && (
-                    <p className={styles.postForm__warning}>
-                      File size must under 2mb
-                    </p>
-                  )}
-                </div>
-              </>
+                    File size must under 2mb
+                  </p>
+                )}
+              </div>
             ) : (
               <>
                 <label
