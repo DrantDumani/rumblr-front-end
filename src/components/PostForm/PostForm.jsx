@@ -6,6 +6,7 @@ import Photo from '../../assets/icons/photo_side_nav.svg?react';
 import Audio from '../../assets/icons/audio_side_nav.svg?react';
 import { TagInput } from '../TagInput/TagInput';
 import { useState, useId } from 'react';
+import jsmediatags from 'jsmediatags';
 
 export function PostForm({ togglePostModal, postModal }) {
   const token = localStorage.getItem('token');
@@ -26,9 +27,26 @@ export function PostForm({ togglePostModal, postModal }) {
       setMedia(imgObj);
     } else if (postModal === 'audio') {
       const audio = e.target.files[0];
+      console.log(audio);
+
       const src = URL.createObjectURL(audio);
       const audioObj = { file: audio, src };
-      setMedia(audioObj);
+      // setMedia(audioObj);
+      const test = src.replace('blob:', '');
+      jsmediatags.read(audio, {
+        onSuccess: function ({ tags }) {
+          // console.log(tags.picture);
+          const { data, format } = tags.picture;
+          let base64 = '';
+          for (let i = 0; i < data.length; i++) {
+            base64 += String.fromCharCode(data[i]);
+          }
+          const tempImgSrc = `data:${data.format};base64,${window.btoa(base64)}`;
+          audioObj.imgSrc = tempImgSrc;
+          setMedia(audioObj);
+        },
+        onError: (err) => console.log(err),
+      });
     }
   };
 
@@ -206,11 +224,12 @@ export function PostForm({ togglePostModal, postModal }) {
             (media ? (
               <>
                 <div className={styles.postForm__imgWrapper}>
-                  {/* <img
+                  {/*Temp*/}
+                  <img
                     className={`${media.file.size > fileLimit ? styles['postForm__img--exceeded'] : null}`}
                     alt=""
-                    src={media.src}
-                  /> */}
+                    src={media.imgSrc}
+                  />
                   <audio controls src={media.src}></audio>
                   <button
                     type="button"
