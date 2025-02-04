@@ -104,7 +104,13 @@ export function SideNav({
           </button>
         </li>
         <li className={styles.sideNav__item}>
-          <button className={styles.sideNavOption}>
+          <button
+            onClick={() => {
+              togglePostModal('video');
+              hideMobileSideNav();
+            }}
+            className={styles.sideNavOption}
+          >
             <Video aria-hidden="true" />
             <span>Video</span>
           </button>

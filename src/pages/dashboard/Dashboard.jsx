@@ -63,7 +63,11 @@ export function Dashboard() {
         className={styles['sideBar--mobileOnly']}
         inert={showSideNav ? null : ''}
       >
-        <SideNav showMobileSideNav={showSideNav} hideMobileSideNav={hideNav} />
+        <SideNav
+          showMobileSideNav={showSideNav}
+          togglePostModal={togglePostModal}
+          hideMobileSideNav={hideNav}
+        />
       </div>
 
       <div className={styles.flexWrapper}>

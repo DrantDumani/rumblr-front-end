@@ -4,9 +4,13 @@ import { jwtDecode } from 'jwt-decode';
 import anon from '../../assets/icons/incognito.svg';
 import Photo from '../../assets/icons/photo_side_nav.svg?react';
 import Audio from '../../assets/icons/audio_side_nav.svg?react';
+import Video from '../../assets/icons/video_side_nav.svg?react';
 import { TagInput } from '../TagInput/TagInput';
 import { useState, useId } from 'react';
 import { AudioWrapper } from '../AudioWrapper/AudioWrapper';
+import { VideoWrapper } from '../VideoWrapper/VideoWrapper';
+import { DeleteMediaBtn } from '../DeleteMediaBtn/DeleteMediaBtn';
+import { FormMediaWarning } from '../FormMediaWarning/FormMediaWarning';
 
 export function PostForm({ togglePostModal, postModal }) {
   const token = localStorage.getItem('token');
@@ -19,16 +23,19 @@ export function PostForm({ togglePostModal, postModal }) {
   const contentInputId = useId();
   const fileLimit = 2097152;
 
+  const fileLimitExceeded = media && media.file.size > 2097152;
+
   const changeMedia = (e) => {
-    if (postModal === 'photo') {
-      const imgFile = e.target.files[0];
-      const src = URL.createObjectURL(imgFile);
-      const imgObj = { file: imgFile, src };
-      setMedia(imgObj);
-    } else if (postModal === 'audio') {
-      const audio = e.target.files[0];
-      console.log(audio);
-      setMedia(audio);
+    if (
+      postModal === 'photo' ||
+      postModal === 'video' ||
+      postModal === 'audio'
+    ) {
+      const media = e.target.files[0];
+      console.log(media);
+      const src = URL.createObjectURL(media);
+      console.log(src);
+      setMedia({ file: media, src });
     }
   };
 
@@ -98,7 +105,7 @@ export function PostForm({ togglePostModal, postModal }) {
         <img className={styles.user_pfp} src={anon} alt="" />
         <span className={styles.postForm__username}>{user.username}</span>
       </div>
-      <form>
+      <form className={styles.postForm__form}>
         <div className={styles.postForm__inputWrapper}>
           {postModal === 'text' && (
             <>
@@ -123,18 +130,8 @@ export function PostForm({ togglePostModal, postModal }) {
                   alt=""
                   src={media.src}
                 />
-                <button
-                  type="button"
-                  onClick={removeMedia}
-                  aria-label="Delete media"
-                >
-                  &#10006;
-                </button>
-                {media.file.size > fileLimit && (
-                  <p className={styles.postForm__warning}>
-                    File size must under 2mb
-                  </p>
-                )}
+                <DeleteMediaBtn onClick={removeMedia} />
+                {fileLimitExceeded && <FormMediaWarning />}
               </div>
             ) : (
               <>
@@ -203,21 +200,9 @@ export function PostForm({ togglePostModal, postModal }) {
           {postModal === 'audio' &&
             (media ? (
               <div className={styles.postForm__mediaWrapper}>
-                <AudioWrapper audio={media} />
-                <button
-                  type="button"
-                  onClick={removeMedia}
-                  aria-label="Delete media"
-                >
-                  &#10006;
-                </button>
-                {media.size > fileLimit && (
-                  <p
-                    className={`${styles.postForm__warning} ${styles['postForm__warning--noImg']}`}
-                  >
-                    File size must under 2mb
-                  </p>
-                )}
+                <AudioWrapper audioFile={media.file} audioURL={media.src} />
+                <DeleteMediaBtn onClick={removeMedia} />
+                {fileLimitExceeded && <FormMediaWarning />}
               </div>
             ) : (
               <>
@@ -233,6 +218,32 @@ export function PostForm({ togglePostModal, postModal }) {
                   className={styles['postForm__input--photo']}
                   type="file"
                   accept="audio/*"
+                  onChange={changeMedia}
+                />
+              </>
+            ))}
+
+          {postModal === 'video' &&
+            (media ? (
+              <div className={styles.postForm__mediaWrapper}>
+                <VideoWrapper videoURL={media.src} />
+                <DeleteMediaBtn onClick={removeMedia} />
+                {fileLimitExceeded && <FormMediaWarning />}
+              </div>
+            ) : (
+              <>
+                <label
+                  htmlFor={contentInputId}
+                  className={styles['postForm__label--photo']}
+                >
+                  <Video aria-hidden="true" />
+                  <span>Custom Video</span>
+                </label>
+                <input
+                  id={contentInputId}
+                  className={styles['postForm__input--photo']}
+                  type="file"
+                  accept="video/*"
                   onChange={changeMedia}
                 />
               </>

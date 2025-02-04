@@ -4,18 +4,17 @@ import styles from './AudioWrapper.module.css';
 import PropTypes from 'prop-types';
 import musicNote from '../../assets/icons/music-note.svg';
 
-export function AudioWrapper({ audio }) {
-  const [metadata, setMetadata] = useState(null);
+export function AudioWrapper({ audioURL = '', audioFile = null }) {
+  const [dataObj, setdataObj] = useState({});
 
   useEffect(() => {
-    const src = URL.createObjectURL(audio);
-    read(audio, {
+    const readDataFrom = audioFile || audioURL;
+    read(readDataFrom, {
       onSuccess: ({ tags }) => {
-        const audioObj = {};
-        audioObj.src = src;
-        audioObj.title = tags.title;
-        audioObj.album = tags.album;
-        audioObj.artist = tags.artist;
+        const newDataObj = {};
+        newDataObj.title = tags.title;
+        newDataObj.album = tags.album;
+        newDataObj.artist = tags.artist;
 
         if (tags.picture) {
           const { data } = tags.picture;
@@ -23,36 +22,32 @@ export function AudioWrapper({ audio }) {
           for (let i = 0; i < data.length; i++) {
             base64 += String.fromCharCode(data[i]);
           }
-          audioObj.picture = `data:${data.format};base64,${window.btoa(base64)}`;
+          newDataObj.picture = `data:${data.format};base64,${window.btoa(base64)}`;
         }
-        setMetadata(audioObj);
+        setdataObj(newDataObj);
       },
+      onError: (e) => console.log(e),
     });
+  }, [audioFile, audioURL]);
 
-    return () => {
-      URL.revokeObjectURL(src);
-    };
-  }, [audio]);
-
-  return metadata ? (
+  return (
     <div className={styles.audioWrapper}>
-      <audio controls src={metadata.src}></audio>
+      <audio controls src={audioURL}></audio>
       <div className={styles.metadata}>
         <div className={styles.metadata__textWrapper}>
-          <p className={styles.metadata__text}>{metadata.title || 'Unknown'}</p>
-          <p className={styles.metadata__text}>
-            {metadata.artist || 'Unknown'}
-          </p>
-          <p className={styles.metadata__text}>{metadata.album || 'Unknown'}</p>
+          <p className={styles.metadata__text}>{dataObj.title || 'Unknown'}</p>
+          <p className={styles.metadata__text}>{dataObj.artist || 'Unknown'}</p>
+          <p className={styles.metadata__text}>{dataObj.album || 'Unknown'}</p>
         </div>
         <div className={styles.metadata__imgWrapper}>
-          <img src={metadata.picture || musicNote} alt="" />
+          <img src={dataObj.picture || musicNote} alt="" />
         </div>
       </div>
     </div>
-  ) : null;
+  );
 }
 
 AudioWrapper.propTypes = {
-  audio: PropTypes.object,
+  audioURL: PropTypes.string,
+  audioFile: PropTypes.object,
 };
