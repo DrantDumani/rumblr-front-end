@@ -125,12 +125,12 @@
 }
 
 .postForm__input--quote {
-  font-family: Georgia, 'Times New Roman', Times, serif;
-  font-size: clamp(1rem, 5vw, 2rem);
+  font-family: var(--quote-font-family);
+  font-size: var(--quote-font-size);
 }
 
 .postForm__input--chat {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: var(--chat-font-family);
 }
 
 .postForm__mediaWrapper {

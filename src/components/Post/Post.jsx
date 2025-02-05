@@ -1,10 +1,8 @@
 import PropTypes from 'prop-types';
 import styles from './Post.module.css';
 import anon from '../../assets/icons/incognito.svg';
-
-// top bar should contain user pfp, username, a follow / unfollow button
-// if user doesn't have an img, just use the generic static image from the server. It doesn't exist yet tho
-// replace respective divs with header and footer. And hell, the posts can be article tags too, since they link to different blogs!
+import { AudioWrapper } from '../AudioWrapper/AudioWrapper';
+import { VideoWrapper } from '../VideoWrapper/VideoWrapper';
 
 export function Post({ post }) {
   const notes = post.parent
@@ -37,36 +35,98 @@ export function Post({ post }) {
         </a>
       </header>
 
-      {/* loop through post segments and render each one */}
-      {/* if only one segment AND the author is the post author, you don't render the header at all */}
-      {/* remember to cover the different types of posts too */}
       {post.segments.length === 1 &&
-      post.segments[0].author.uname === post.author.uname ? (
-        <div className={styles.post__contentWrapper}>
-          <p>{post.segments[0].content}</p>
-        </div>
-      ) : (
-        post.segments.map((segment) => (
-          <div key={segment.id}>
-            <div className={styles.post__segmentHeader}>
-              <a className={styles.post__blogLink} href="">
-                <img
-                  src={segment.author.pfp || anon}
-                  className={styles.post__author_pfp}
-                />
-                <span className={styles.post__authorName}>
-                  {segment.author.uname}
-                </span>
+      post.segments[0].author.uname === post.author.uname
+        ? (post.segments[0].post_type === 'text' && (
+            <div className={styles.post__contentWrapper}>
+              <p className={styles.post__text}>{post.segments[0].content}</p>
+            </div>
+          )) ||
+          (post.segments[0].post_type === 'photo' && (
+            <img
+              className={styles.post__img}
+              src={post.segments[0].content}
+              alt=""
+            />
+          )) ||
+          (post.segments[0].post_type === 'quote' && (
+            <div className={styles.post__contentWrapper}>
+              <p className={styles.post__quote}>{post.segments[0].content}</p>
+            </div>
+          )) ||
+          (post.segments[0].post_type === 'link' && (
+            <div className={styles.post__contentWrapper}>
+              <a
+                target="_blank"
+                rel="noreferrer"
+                href={post.segments[0].content}
+              >
+                {post.segments[0].content}
               </a>
             </div>
-
-            {/* just text for now */}
+          )) ||
+          (post.segments[0].post_type === 'chat' && (
             <div className={styles.post__contentWrapper}>
-              <p>{segment.content}</p>
+              <p className={styles.post__chat}>{post.segments[0].content}</p>
             </div>
-          </div>
-        ))
-      )}
+          )) ||
+          (post.segments[0].post_type === 'audio' && (
+            <AudioWrapper audioURL={post.segments[0].content} />
+          )) ||
+          (post.segments[0].post_type === 'video' && (
+            <VideoWrapper videoURL={post.segments[0].content} />
+          ))
+        : post.segments.map((segment) => (
+            <div key={segment.id}>
+              <div className={styles.post__segmentHeader}>
+                <a className={styles.post__blogLink} href="">
+                  <img
+                    src={segment.author.pfp || anon}
+                    className={styles.post__author_pfp}
+                  />
+                  <span className={styles.post__authorName}>
+                    {segment.author.uname}
+                  </span>
+                </a>
+              </div>
+
+              {segment.post_type === 'text' && (
+                <div className={styles.post__contentWrapper}>
+                  <p className={styles.post__text}>{segment.content}</p>
+                </div>
+              )}
+              {segment.post_type === 'photo' && (
+                <img
+                  className={styles.post__img}
+                  src={segment.content}
+                  alt=""
+                />
+              )}
+              {segment.post_type === 'quote' && (
+                <div className={styles.post__contentWrapper}>
+                  <p className={styles.post__quote}>{segment.content}</p>
+                </div>
+              )}
+              {segment.post_type === 'link' && (
+                <div className={styles.post__contentWrapper}>
+                  <a target="_blank" rel="noreferrer" href={segment.content}>
+                    {segment.content}
+                  </a>
+                </div>
+              )}
+              {segment.post_type === 'chat' && (
+                <div>
+                  <p className={styles.post__chat}>{segment.content}</p>
+                </div>
+              )}
+              {segment.post_type === 'audio' && (
+                <AudioWrapper audioURL={segment.content} />
+              )}
+              {segment.post_type === 'video' && (
+                <VideoWrapper videoURL={segment.content} />
+              )}
+            </div>
+          ))}
 
       {/* then the tags */}
       <div className={styles.post__tagWrapper}>
@@ -83,7 +143,7 @@ export function Post({ post }) {
           <span className={styles.post__notesNum}>{notes}</span>{' '}
           {notes === 1 ? 'note' : 'notes'}
         </button>
-        <p>Insert other svgs here</p>
+        <p className={styles.testOnly}>Insert other svgs here</p>
       </footer>
     </article>
   );

@@ -6,11 +6,12 @@ import Photo from '../../assets/icons/photo_side_nav.svg?react';
 import Audio from '../../assets/icons/audio_side_nav.svg?react';
 import Video from '../../assets/icons/video_side_nav.svg?react';
 import { TagInput } from '../TagInput/TagInput';
-import { useState, useId } from 'react';
+import { useState, useId, useRef } from 'react';
 import { AudioWrapper } from '../AudioWrapper/AudioWrapper';
 import { VideoWrapper } from '../VideoWrapper/VideoWrapper';
 import { DeleteMediaBtn } from '../DeleteMediaBtn/DeleteMediaBtn';
 import { FormMediaWarning } from '../FormMediaWarning/FormMediaWarning';
+import { handleData } from '../../utils/handleData';
 
 export function PostForm({ togglePostModal, postModal }) {
   const token = localStorage.getItem('token');
@@ -21,6 +22,7 @@ export function PostForm({ togglePostModal, postModal }) {
   // state for media toggling
   const [media, setMedia] = useState(null);
   const contentInputId = useId();
+  const textRef = useRef(null);
   const fileLimit = 2097152;
 
   const fileLimitExceeded = media && media.file.size > 2097152;
@@ -32,9 +34,7 @@ export function PostForm({ togglePostModal, postModal }) {
       postModal === 'audio'
     ) {
       const media = e.target.files[0];
-      console.log(media);
       const src = URL.createObjectURL(media);
-      console.log(src);
       setMedia({ file: media, src });
     }
   };
@@ -44,10 +44,50 @@ export function PostForm({ togglePostModal, postModal }) {
     setMedia(null);
   };
 
-  const submitPost = () => {
-    // prevent default form submission
-    // get post content based on the type of post
-    // submit the post
+  const submitPost = async (e) => {
+    // maybe toggle a loading screen while sending the post
+    const checkTagDupes = {};
+    const filteredTags = [];
+
+    for (let tag of tagInputs) {
+      if (!checkTagDupes[tag[0]]) {
+        checkTagDupes[tag[0]] = true;
+        filteredTags.push(tag[0]);
+      }
+    }
+    e.preventDefault();
+    if (
+      postModal !== 'photo' &&
+      postModal !== 'video' &&
+      postModal !== 'audio'
+    ) {
+      await handleData(
+        'posts',
+        { content: textRef.current.value, type: postModal, tags: filteredTags },
+        'post'
+      );
+      togglePostModal('');
+    } else {
+      const input = new FormData();
+      filteredTags.forEach((tag) => {
+        input.append('tags[]', tag);
+      });
+
+      if (postModal === 'photo') {
+        input.append('image', media.file);
+        input.append('type', 'photo');
+        await handleData('posts/photo', input, 'post', 'multipart/form-data');
+      } else if (postModal === 'audio') {
+        input.append('audio', media.file);
+        input.append('type', 'audio');
+        await handleData('posts/audio', input, 'post', 'multipart/form-data');
+      } else if (postModal === 'video') {
+        input.append('video', media.file);
+        input.append('type', 'video');
+        await handleData('posts/video', input, 'post', 'multipart/form-data');
+      }
+      togglePostModal('');
+    }
   };
 
   const createNewTag = () => {
@@ -105,7 +145,7 @@ export function PostForm({ togglePostModal, postModal }) {
         <img className={styles.user_pfp} src={anon} alt="" />
         <span className={styles.postForm__username}>{user.username}</span>
       </div>
-      <form className={styles.postForm__form}>
+      <form onSubmit={submitPost} className={styles.postForm__form}>
         <div className={styles.postForm__inputWrapper}>
           {postModal === 'text' && (
             <>
@@ -116,6 +156,7 @@ export function PostForm({ togglePostModal, postModal }) {
                 Post
               </label>
               <textarea
+                ref={textRef}
                 id={contentInputId}
                 className={styles.postForm__input}
               ></textarea>
@@ -161,6 +202,7 @@ export function PostForm({ togglePostModal, postModal }) {
                 Post
               </label>
               <textarea
+                ref={textRef}
                 id={contentInputId}
                 className={`${styles.postForm__input} ${styles['postForm__input--quote']}`}
               ></textarea>
@@ -176,6 +218,8 @@ export function PostForm({ togglePostModal, postModal }) {
                 Post
               </label>
               <textarea
+                ref={textRef}
+                name="content"
                 id={contentInputId}
                 className={`${styles.postForm__input}`}
               ></textarea>
@@ -191,6 +235,10 @@ export function PostForm({ togglePostModal, postModal }) {
                 Post
               </label>
               <textarea
+                ref={textRef}
+                placeholder="Mario: Nice of the princess to invite us over for a picnic, ay Luigi?
+
+Luigi: I hope she makes lotsa spaghetti!"
                 id={contentInputId}
                 className={`${styles.postForm__input} ${styles['postForm__input--chat']}`}
               ></textarea>

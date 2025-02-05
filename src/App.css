@@ -60,6 +60,9 @@ body {
   --pfp-width: 1.875rem;
   --post-padding: 1rem;
   --post-form-height: 250px;
+  --quote-font-family: Georgia, 'Times New Roman', Times, serif;
+  --quote-font-size: clamp(1rem, 5vw, 2rem);
+  --chat-font-family: 'Courier New', Courier, monospace;
 }
 
 body {
