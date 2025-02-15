@@ -12,8 +12,15 @@ import { VideoWrapper } from '../VideoWrapper/VideoWrapper';
 import { DeleteMediaBtn } from '../DeleteMediaBtn/DeleteMediaBtn';
 import { FormMediaWarning } from '../FormMediaWarning/FormMediaWarning';
 import { handleData } from '../../utils/handleData';
+import { PostMenu } from '../PostMenu/PostMenu';
 
-export function PostForm({ togglePostModal, postModal }) {
+export function PostForm({
+  togglePostModal,
+  postModal,
+  reqType = { type: 'new', postId: 0 },
+  prevValue = '',
+  // changeForm = () => {}
+}) {
   const token = localStorage.getItem('token');
   const user = jwtDecode(token);
   const [tagInputs, setTagInputs] = useState([]);
@@ -45,9 +52,17 @@ export function PostForm({ togglePostModal, postModal }) {
   };
 
   const submitPost = async (e) => {
+    e.preventDefault();
     // maybe toggle a loading screen while sending the post
     const checkTagDupes = {};
     const filteredTags = [];
+
+    let reqStr = '';
+    if (reqType.type === 'reblog') {
+      reqStr = `reblogs/${reqType.postId}`;
+    } else if (reqType.type === 'edit') {
+      reqStr = `posts/${reqType.postId}`;
+    } else reqStr = 'posts';
 
     for (let tag of tagInputs) {
       if (!checkTagDupes[tag[0]]) {
@@ -55,18 +70,17 @@ export function PostForm({ togglePostModal, postModal }) {
         filteredTags.push(tag[0]);
       }
     }
-    e.preventDefault();
     if (
       postModal !== 'photo' &&
       postModal !== 'video' &&
       postModal !== 'audio'
     ) {
+      if (!textRef.current.value) return;
       await handleData(
-        'posts',
+        reqStr,
         { content: textRef.current.value, type: postModal, tags: filteredTags },
         'post'
       );
-      togglePostModal('');
     } else {
       const input = new FormData();
       filteredTags.forEach((tag) => {
@@ -76,18 +90,33 @@ export function PostForm({ togglePostModal, postModal }) {
       if (postModal === 'photo') {
         input.append('image', media.file);
         input.append('type', 'photo');
-        await handleData('posts/photo', input, 'post', 'multipart/form-data');
+        await handleData(
+          reqStr + '/photo',
+          input,
+          'post',
+          'multipart/form-data'
+        );
       } else if (postModal === 'audio') {
         input.append('audio', media.file);
         input.append('type', 'audio');
-        await handleData('posts/audio', input, 'post', 'multipart/form-data');
+        await handleData(
+          reqStr + '/audio',
+          input,
+          'post',
+          'multipart/form-data'
+        );
       } else if (postModal === 'video') {
         input.append('video', media.file);
         input.append('type', 'video');
-        await handleData('posts/video', input, 'post', 'multipart/form-data');
+        await handleData(
+          reqStr + '/video',
+          input,
+          'post',
+          'multipart/form-data'
+        );
       }
-      togglePostModal('');
     }
+    togglePostModal('');
   };
 
   const createNewTag = () => {
@@ -145,6 +174,9 @@ export function PostForm({ togglePostModal, postModal }) {
         <img className={styles.user_pfp} src={anon} alt="" />
         <span className={styles.postForm__username}>{user.username}</span>
       </div>
+      {(reqType.type === 'edit' || reqType.type === 'reblog') && (
+        <PostMenu toggleOpt={togglePostModal} />
+      )}
       <form onSubmit={submitPost} className={styles.postForm__form}>
         <div className={styles.postForm__inputWrapper}>
           {postModal === 'text' && (
@@ -156,6 +188,7 @@ export function PostForm({ togglePostModal, postModal }) {
                 Post
               </label>
               <textarea
+                defaultValue={postModal === 'edit' ? prevValue : ''}
                 ref={textRef}
                 id={contentInputId}
                 className={styles.postForm__input}
@@ -202,6 +235,7 @@ export function PostForm({ togglePostModal, postModal }) {
                 Post
               </label>
               <textarea
+                defaultValue={postModal === 'edit' ? prevValue : ''}
                 ref={textRef}
                 id={contentInputId}
                 className={`${styles.postForm__input} ${styles['postForm__input--quote']}`}
@@ -218,6 +252,7 @@ export function PostForm({ togglePostModal, postModal }) {
                 Post
               </label>
               <textarea
+                defaultValue={postModal === 'edit' ? prevValue : ''}
                 ref={textRef}
                 name="content"
                 id={contentInputId}
@@ -235,6 +270,7 @@ export function PostForm({ togglePostModal, postModal }) {
                 Post
               </label>
               <textarea
+                defaultValue={postModal === 'edit' ? prevValue : ''}
                 ref={textRef}
                 placeholder="Mario: Nice of the princess to invite us over for a picnic, ay Luigi?
 
@@ -344,4 +380,10 @@ Luigi: I hope she makes lotsa spaghetti!"
 PostForm.propTypes = {
   togglePostModal: PropTypes.func,
   postModal: PropTypes.string,
+  reqType: PropTypes.shape({
+    type: PropTypes.oneOf(['reblog', 'edit', 'new']),
+    postId: PropTypes.number,
+  }),
+  prevValue: PropTypes.string,
+  // changeForm: PropTypes.func
 };

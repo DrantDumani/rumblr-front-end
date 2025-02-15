@@ -43,7 +43,10 @@ export function Dashboard() {
 
   return (
     <>
-      <header inert={showSideNav ? '' : null} className={`${styles.header}`}>
+      <header
+        inert={showSideNav || postModal ? '' : null}
+        className={`${styles.header}`}
+      >
         <DashNav showNav={showNav} hideOptions={hideHeaderOptions} />
       </header>
       <div
@@ -74,14 +77,17 @@ export function Dashboard() {
         <div className={styles.sideBarWrapper}>
           <SideNav togglePostModal={togglePostModal} />
         </div>
-        <main className={styles.main} inert={showSideNav ? '' : null}>
+        <main
+          className={styles.main}
+          inert={showSideNav || postModal ? '' : null}
+        >
           <div className={styles.postListWrapper}>
             {posts.map((post) => (
               <Post key={post.id} post={post} />
             ))}
           </div>
         </main>
-        {/* <footer inert={showSideNav ? '' : null}>
+        {/* <footer inert={showSideNav || postModal ? '' : null}>
           Footer stuff but we made the post extra long so you could see stuff
           when the menu is up
         </footer> */}
