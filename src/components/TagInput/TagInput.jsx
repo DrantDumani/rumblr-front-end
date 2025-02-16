@@ -40,6 +40,7 @@ export function TagInput({
         ></textarea>
         {isComplete && (
           <button
+            aria-label="Delete tag"
             type="button"
             onClick={handleTagDelete}
             className={styles.deleteTag__btn}

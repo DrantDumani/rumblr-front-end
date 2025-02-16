@@ -30,8 +30,9 @@ export function Post({ post }) {
 
   const deletePost = () => {};
 
-  const editPost = () => {
-    // Oops, you gotta open the post form. But you'll have to edit. Figure it out tomorrow
+  const editForm = () => {
+    setPostModal(post.segments[post.segments.length - 1].post_type);
+    setReqType({ type: 'edit', postId: post.id });
   };
 
   const reblogForm = () => {
@@ -176,7 +177,7 @@ export function Post({ post }) {
               <button className={styles.post__svgBtn}>
                 <Trash aria-label="Delete" />
               </button>
-              <button className={styles.post__svgBtn}>
+              <button onClick={editForm} className={styles.post__svgBtn}>
                 <Edit aria-label="Edit" />
               </button>
             </div>
@@ -215,7 +216,8 @@ export function Post({ post }) {
           postModal={postModal}
           togglePostModal={togglePostModal}
           reqType={reqType}
-          prevValue={post.content}
+          prevValue={post.segments[post.segments.length - 1].content}
+          prevTags={post.tags.map((t) => [t.content, t.id, false, true])}
         />
       )}
     </>

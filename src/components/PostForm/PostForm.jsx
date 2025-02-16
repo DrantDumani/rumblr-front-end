@@ -19,11 +19,13 @@ export function PostForm({
   postModal,
   reqType = { type: 'new', postId: 0 },
   prevValue = '',
-  // changeForm = () => {}
+  prevTags = [],
 }) {
   const token = localStorage.getItem('token');
   const user = jwtDecode(token);
-  const [tagInputs, setTagInputs] = useState([]);
+  const [tagInputs, setTagInputs] = useState(
+    reqType.type === 'edit' ? prevTags : []
+  );
   const [showTagBtn, setShowTagBtn] = useState(true);
 
   // state for media toggling
@@ -58,10 +60,12 @@ export function PostForm({
     const filteredTags = [];
 
     let reqStr = '';
+    let method = 'post';
     if (reqType.type === 'reblog') {
       reqStr = `reblogs/${reqType.postId}`;
     } else if (reqType.type === 'edit') {
       reqStr = `posts/${reqType.postId}`;
+      method = 'put';
     } else reqStr = 'posts';
 
     for (let tag of tagInputs) {
@@ -75,13 +79,14 @@ export function PostForm({
       postModal !== 'video' &&
       postModal !== 'audio'
     ) {
-      if (!textRef.current.value) return;
+      if (!textRef.current.value && reqType.type !== 'reblog') return;
       await handleData(
         reqStr,
         { content: textRef.current.value, type: postModal, tags: filteredTags },
-        'post'
+        method
       );
     } else {
+      if (!media) return;
       const input = new FormData();
       filteredTags.forEach((tag) => {
         input.append('tags[]', tag);
@@ -93,7 +98,7 @@ export function PostForm({
         await handleData(
           reqStr + '/photo',
           input,
-          'post',
+          method,
           'multipart/form-data'
         );
       } else if (postModal === 'audio') {
@@ -102,7 +107,7 @@ export function PostForm({
         await handleData(
           reqStr + '/audio',
           input,
-          'post',
+          method,
           'multipart/form-data'
         );
       } else if (postModal === 'video') {
@@ -111,7 +116,7 @@ export function PostForm({
         await handleData(
           reqStr + '/video',
           input,
-          'post',
+          method,
           'multipart/form-data'
         );
       }
@@ -188,7 +193,7 @@ export function PostForm({
                 Post
               </label>
               <textarea
-                defaultValue={postModal === 'edit' ? prevValue : ''}
+                defaultValue={reqType.type === 'edit' ? prevValue : ''}
                 ref={textRef}
                 id={contentInputId}
                 className={styles.postForm__input}
@@ -235,7 +240,7 @@ export function PostForm({
                 Post
               </label>
               <textarea
-                defaultValue={postModal === 'edit' ? prevValue : ''}
+                defaultValue={reqType.type === 'edit' ? prevValue : ''}
                 ref={textRef}
                 id={contentInputId}
                 className={`${styles.postForm__input} ${styles['postForm__input--quote']}`}
@@ -252,7 +257,7 @@ export function PostForm({
                 Post
               </label>
               <textarea
-                defaultValue={postModal === 'edit' ? prevValue : ''}
+                defaultValue={reqType.type === 'edit' ? prevValue : ''}
                 ref={textRef}
                 name="content"
                 id={contentInputId}
@@ -270,7 +275,7 @@ export function PostForm({
                 Post
               </label>
               <textarea
-                defaultValue={postModal === 'edit' ? prevValue : ''}
+                defaultValue={reqType.type === 'edit' ? prevValue : ''}
                 ref={textRef}
                 placeholder="Mario: Nice of the princess to invite us over for a picnic, ay Luigi?
 
@@ -368,8 +373,13 @@ Luigi: I hope she makes lotsa spaghetti!"
           >
             Close
           </button>
-          <button type="submit" className={styles.postForm__btn}>
-            Post Now
+          <button
+            type="submit"
+            className={`${styles.postForm__btn} ${styles['postForm__btn--submit']}`}
+          >
+            {(reqType.type === 'new' && 'Post Now') ||
+              (reqType.type === 'reblog' && 'Reblog') ||
+              (reqType.type === 'edit' && 'Save')}
           </button>
         </div>
       </form>
@@ -385,5 +395,5 @@ PostForm.propTypes = {
     postId: PropTypes.number,
   }),
   prevValue: PropTypes.string,
-  // changeForm: PropTypes.func
+  prevTags: PropTypes.arrayOf(PropTypes.array),
 };

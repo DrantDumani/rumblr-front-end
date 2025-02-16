@@ -25,12 +25,6 @@
   }
 }
 
-@media (min-width: 1280px) {
-  .postForm__wrapper {
-    overflow-y: hidden;
-  }
-}
-
 .postForm__header {
   display: flex;
   align-items: center;
@@ -212,4 +206,14 @@
 .postForm__btn {
   font-weight: 500;
   font-size: 1rem;
+}
+
+.postForm__btn--submit {
+  background-color: #00b8ff;
+  color: #fff;
+
+  &:hover {
+    background-color: #008fc8;
+    color: #fff;
+  }
 }
