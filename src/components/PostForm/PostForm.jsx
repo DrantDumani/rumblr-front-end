@@ -20,6 +20,7 @@ export function PostForm({
   reqType = { type: 'new', postId: 0 },
   prevValue = '',
   prevTags = [],
+  editUpdater = () => {},
 }) {
   const token = localStorage.getItem('token');
   const user = jwtDecode(token);
@@ -61,6 +62,7 @@ export function PostForm({
 
     let reqStr = '';
     let method = 'post';
+    let resp = null;
     if (reqType.type === 'reblog') {
       reqStr = `reblogs/${reqType.postId}`;
     } else if (reqType.type === 'edit') {
@@ -80,7 +82,7 @@ export function PostForm({
       postModal !== 'audio'
     ) {
       if (!textRef.current.value && reqType.type !== 'reblog') return;
-      await handleData(
+      resp = await handleData(
         reqStr,
         { content: textRef.current.value, type: postModal, tags: filteredTags },
         method
@@ -95,7 +97,7 @@ export function PostForm({
       if (postModal === 'photo') {
         input.append('image', media.file);
         input.append('type', 'photo');
-        await handleData(
+        resp = await handleData(
           reqStr + '/photo',
           input,
           method,
@@ -104,7 +106,7 @@ export function PostForm({
       } else if (postModal === 'audio') {
         input.append('audio', media.file);
         input.append('type', 'audio');
-        await handleData(
+        resp = await handleData(
           reqStr + '/audio',
           input,
           method,
@@ -113,7 +115,7 @@ export function PostForm({
       } else if (postModal === 'video') {
         input.append('video', media.file);
         input.append('type', 'video');
-        await handleData(
+        resp = await handleData(
           reqStr + '/video',
           input,
           method,
@@ -121,6 +123,8 @@ export function PostForm({
         );
       }
     }
+    const respData = await resp.json();
+    editUpdater(respData);
     togglePostModal('');
   };
 
@@ -396,4 +400,5 @@ PostForm.propTypes = {
   }),
   prevValue: PropTypes.string,
   prevTags: PropTypes.arrayOf(PropTypes.array),
+  editUpdater: PropTypes.func,
 };

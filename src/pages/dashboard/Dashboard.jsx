@@ -15,6 +15,10 @@ export function Dashboard() {
   const [posts, setPosts] = useState(postData);
   const [postModal, setPostModal] = useState('');
 
+  const updateEditedPost = (post) => {
+    setPosts((prev) => prev.map((p) => (p.id !== post.id ? p : post)));
+  };
+
   const togglePostModal = (str) => setPostModal(str);
 
   const showNav = () => setShowSideNav(true);
@@ -83,7 +87,7 @@ export function Dashboard() {
         >
           <div className={styles.postListWrapper}>
             {posts.map((post) => (
-              <Post key={post.id} post={post} />
+              <Post key={post.id} post={post} editUpdater={updateEditedPost} />
             ))}
           </div>
         </main>

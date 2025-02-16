@@ -13,7 +13,7 @@ import { PostForm } from '../PostForm/PostForm';
 import { ModalBackdrop } from '../ModalBackdrop/ModalBackdrop';
 import { useState } from 'react';
 
-export function Post({ post }) {
+export function Post({ post, editUpdater = () => {} }) {
   // create state for the reqType
   // also create state for the post Modal
   // postModal should default to text, but clicking a button inside of the postForm itself should change it
@@ -218,6 +218,7 @@ export function Post({ post }) {
           reqType={reqType}
           prevValue={post.segments[post.segments.length - 1].content}
           prevTags={post.tags.map((t) => [t.content, t.id, false, true])}
+          editUpdater={editUpdater}
         />
       )}
     </>
@@ -226,4 +227,5 @@ export function Post({ post }) {
 
 Post.propTypes = {
   post: PropTypes.object,
+  editUpdater: PropTypes.func,
 };
