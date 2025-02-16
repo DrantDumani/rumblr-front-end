@@ -12,12 +12,15 @@ import { jwtDecode } from 'jwt-decode';
 import { PostForm } from '../PostForm/PostForm';
 import { ModalBackdrop } from '../ModalBackdrop/ModalBackdrop';
 import { useState } from 'react';
+import { ConfirmDelete } from '../ConfirmDelete/ConfirmDelete';
 
-export function Post({ post, editUpdater = () => {} }) {
-  // create state for the reqType
-  // also create state for the post Modal
-  // postModal should default to text, but clicking a button inside of the postForm itself should change it
+export function Post({
+  post,
+  editUpdater = () => {},
+  deleteUpdater = () => {},
+}) {
   const [postModal, setPostModal] = useState('');
+  const [displayDeleteForm, setDisplayDeleteForm] = useState(false);
   const [reqType, setReqType] = useState({ type: '', postId: 0 });
 
   const notes = post.parent
@@ -28,7 +31,11 @@ export function Post({ post, editUpdater = () => {} }) {
 
   const userInfo = jwtDecode(localStorage.getItem('token'));
 
-  const deletePost = () => {};
+  const toggleDisplayDelete = () => {
+    setDisplayDeleteForm((prev) => !prev);
+  };
+
+  // const deletePost = () => {};
 
   const editForm = () => {
     setPostModal(post.segments[post.segments.length - 1].post_type);
@@ -174,7 +181,10 @@ export function Post({ post, editUpdater = () => {} }) {
           </div>
           {userInfo.id === post.author.id && (
             <div className={styles.post__userControls}>
-              <button className={styles.post__svgBtn}>
+              <button
+                onClick={toggleDisplayDelete}
+                className={styles.post__svgBtn}
+              >
                 <Trash aria-label="Delete" />
               </button>
               <button onClick={editForm} className={styles.post__svgBtn}>
@@ -184,7 +194,6 @@ export function Post({ post, editUpdater = () => {} }) {
           )}
         </div>
 
-        {/* finally, the post footer */}
         <footer className={styles.post__footer}>
           <button className={styles.post__notesBtn}>
             <span className={styles.post__notesNum}>{notes}</span>{' '}
@@ -210,7 +219,14 @@ export function Post({ post, editUpdater = () => {} }) {
           </div>
         </footer>
       </article>
-      {postModal && <ModalBackdrop />}
+      {(postModal || displayDeleteForm) && <ModalBackdrop />}
+      {displayDeleteForm && (
+        <ConfirmDelete
+          postId={post.id}
+          deleteFn={deleteUpdater}
+          cancelFn={toggleDisplayDelete}
+        />
+      )}
       {postModal && (
         <PostForm
           postModal={postModal}
@@ -228,4 +244,5 @@ export function Post({ post, editUpdater = () => {} }) {
 Post.propTypes = {
   post: PropTypes.object,
   editUpdater: PropTypes.func,
+  deleteUpdater: PropTypes.func,
 };

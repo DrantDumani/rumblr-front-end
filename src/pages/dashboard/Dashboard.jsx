@@ -19,6 +19,10 @@ export function Dashboard() {
     setPosts((prev) => prev.map((p) => (p.id !== post.id ? p : post)));
   };
 
+  const deletePost = (id) => {
+    setPosts((prev) => prev.filter((p) => p.id !== id));
+  };
+
   const togglePostModal = (str) => setPostModal(str);
 
   const showNav = () => setShowSideNav(true);
@@ -87,7 +91,12 @@ export function Dashboard() {
         >
           <div className={styles.postListWrapper}>
             {posts.map((post) => (
-              <Post key={post.id} post={post} editUpdater={updateEditedPost} />
+              <Post
+                key={post.id}
+                post={post}
+                editUpdater={updateEditedPost}
+                deleteUpdater={deletePost}
+              />
             ))}
           </div>
         </main>
