@@ -13,15 +13,18 @@ import { PostForm } from '../PostForm/PostForm';
 import { ModalBackdrop } from '../ModalBackdrop/ModalBackdrop';
 import { useState } from 'react';
 import { ConfirmDelete } from '../ConfirmDelete/ConfirmDelete';
+import { handleData } from '../../utils/handleData';
 
 export function Post({
   post,
   editUpdater = () => {},
   deleteUpdater = () => {},
+  likesUpdater = () => {},
 }) {
   const [postModal, setPostModal] = useState('');
   const [displayDeleteForm, setDisplayDeleteForm] = useState(false);
   const [reqType, setReqType] = useState({ type: '', postId: 0 });
+  const [throttle, setThrottle] = useState(false);
 
   const notes = post.parent
     ? post.parent._count.usersLiked +
@@ -35,8 +38,6 @@ export function Post({
     setDisplayDeleteForm((prev) => !prev);
   };
 
-  // const deletePost = () => {};
-
   const editForm = () => {
     setPostModal(post.segments[post.segments.length - 1].post_type);
     setReqType({ type: 'edit', postId: post.id });
@@ -45,6 +46,24 @@ export function Post({
   const reblogForm = () => {
     setPostModal('text');
     setReqType({ type: 'reblog', postId: post.id });
+  };
+
+  const handleLike = async (postId) => {
+    const method = post.usersLiked.length > 0 ? 'DELETE' : 'POST';
+    // optimistic update
+    likesUpdater(postId, method);
+
+    // prevent user from sending another request before the first one has been sent
+    if (!throttle) {
+      setThrottle(true);
+      const resp = await handleData(`likes/${postId}`, undefined, method);
+      if (!resp.ok) {
+        // undo the optimistic action
+        likesUpdater(postId, method === 'DELETE' ? 'POST' : 'DELETE');
+        return;
+      }
+      setThrottle(false);
+    }
   };
 
   const togglePostModal = (str) => setPostModal(str);
@@ -211,8 +230,9 @@ export function Post({
               <Reblog />
             </button>
             <button
+              onClick={() => handleLike(post.id)}
               aria-label="Like Post"
-              className={`${styles.post__svgBtn} ${styles['post__svgBtn--like']}`}
+              className={`${styles.post__svgBtn} ${post.usersLiked.length ? styles['post__svgBtn--like'] : ''}`}
             >
               <Like />
             </button>
@@ -245,4 +265,5 @@ Post.propTypes = {
   post: PropTypes.object,
   editUpdater: PropTypes.func,
   deleteUpdater: PropTypes.func,
+  likesUpdater: PropTypes.func,
 };
