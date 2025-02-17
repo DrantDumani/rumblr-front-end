@@ -6,17 +6,22 @@ import PropTypes from 'prop-types';
 import { HeaderLinks } from '../HeaderLinks/HeaderLinks';
 
 export function DashNav({ showNav }) {
+  // const location = useLocation();
+
+  // const resetDashBoard = () => {
+  //   if (location.pathname === '/') window.location.reload();
+  // };
+
+  // if the pathname is "/", you can just pass this component a function
+  // the function would use handle Data to make a call for the most recent posts, and it would update state
+
   return (
     <div className={styles.topBar}>
       <button onClick={showNav} className={styles.menuBtn}>
         <Hamburger />
       </button>
 
-      <Link
-        onClick={() => window.location.reload()}
-        to={'/'}
-        className={styles.logoLink}
-      >
+      <Link to={'/'} className={styles.logoLink}>
         Rumblr
       </Link>
 
