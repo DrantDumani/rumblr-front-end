@@ -125,7 +125,11 @@ export function SideNav({
                 </Link>
               </li>
               <li className={styles.sideNav__item}>
-                <Link className={styles.sideNavOption}>
+                <Link
+                  onClick={hideMobileSideNav}
+                  to="settings"
+                  className={styles.sideNavOption}
+                >
                   <Settings aria-hidden="true" />
                   <span>Settings</span>
                 </Link>

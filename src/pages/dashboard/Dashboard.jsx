@@ -5,52 +5,12 @@ import { useState, useEffect } from 'react';
 import styles from './Dashboard.module.css';
 import { SearchFrom } from '../../components/SearchForm/SearchForm';
 import { HeaderLinks } from '../../components/HeaderLinks/HeaderLinks';
-import { useLoaderData } from 'react-router';
-import { Post } from '../../components/Post/Post';
 import { PostForm } from '../../components/PostForm/PostForm';
+import { Outlet } from 'react-router';
 
 export function Dashboard() {
-  const postData = useLoaderData();
   const [showSideNav, setShowSideNav] = useState(false);
-  const [posts, setPosts] = useState(postData);
   const [postModal, setPostModal] = useState('');
-
-  const updateEditedPost = (post) => {
-    setPosts((prev) => prev.map((p) => (p.id !== post.id ? p : post)));
-  };
-
-  const deletePost = (id) => {
-    setPosts((prev) => prev.filter((p) => p.id !== id));
-  };
-
-  const togglePostLike = (id, method) => {
-    setPosts((prev) =>
-      prev.map((p) => {
-        if (p.id !== id) return p;
-        else {
-          if (method === 'DELETE') {
-            const newP = structuredClone(p);
-            newP.usersLiked = [];
-            if (newP.parent) {
-              newP.parent._count.usersLiked -= 1;
-            } else {
-              newP._count.usersLiked -= 1;
-            }
-            return newP;
-          } else {
-            const newP = structuredClone(p);
-            newP.usersLiked = [{ user_id: 0 }];
-            if (newP.parent) {
-              newP.parent._count.usersLiked += 1;
-            } else {
-              newP._count.usersLiked += 1;
-            }
-            return newP;
-          }
-        }
-      })
-    );
-  };
 
   const togglePostModal = (str) => setPostModal(str);
 
@@ -118,17 +78,7 @@ export function Dashboard() {
           className={styles.main}
           inert={showSideNav || postModal ? '' : null}
         >
-          <div className={styles.postListWrapper}>
-            {posts.map((post) => (
-              <Post
-                key={post.id}
-                post={post}
-                editUpdater={updateEditedPost}
-                deleteUpdater={deletePost}
-                likesUpdater={togglePostLike}
-              />
-            ))}
-          </div>
+          <Outlet />
         </main>
         {/* <footer inert={showSideNav || postModal ? '' : null}>
           Footer stuff but we made the post extra long so you could see stuff
