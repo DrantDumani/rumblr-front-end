@@ -56,6 +56,9 @@ export function PostForm({
 
   const submitPost = async (e) => {
     e.preventDefault();
+
+    if (fileLimitExceeded) return;
+
     // maybe toggle a loading screen while sending the post
     const checkTagDupes = {};
     const filteredTags = [];
