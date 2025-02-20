@@ -63,6 +63,7 @@ body {
   --quote-font-family: Georgia, 'Times New Roman', Times, serif;
   --quote-font-size: clamp(1rem, 5vw, 2rem);
   --chat-font-family: 'Courier New', Courier, monospace;
+  --max-main-width: 480px;
 }
 
 body {
@@ -79,18 +80,10 @@ ul {
   /* might remove this since you want to have infinite scroll on dashboard */
   min-height: 100%;
   margin: 0 auto;
-  /* padding: 1rem; */
-  /* Apply padding to child elements */
   font-family: Rubik, 'Courier New', Courier, monospace;
   display: flex;
   flex-direction: column;
 }
-
-/* @media (min-width: 768px) {
-  #root {
-    padding: 2rem;
-  }
-} */
 
 main {
   flex-grow: 1;

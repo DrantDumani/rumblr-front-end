@@ -1,0 +1,165 @@
+.fileInputLabel {
+  cursor: pointer;
+
+  & svg {
+    border-radius: 4px;
+    width: 32px;
+    height: auto;
+    background-color: #00000087;
+    & path {
+      fill: #fff;
+    }
+  }
+}
+
+.fileInput,
+.fileSpan {
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  display: inline-block;
+}
+
+@media (min-width: 768px) {
+  .settingsWrapper {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 1280px) {
+  .settingsWrapper {
+    display: block;
+  }
+}
+
+.settings {
+  position: relative;
+  background-color: #fafafa;
+  width: 100%;
+  max-width: var(--max-main-width);
+  color: #000;
+}
+
+.imgWrapper {
+  position: relative;
+}
+
+.settings__headerImg {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+.settings__headerImgInput_wrapper {
+  position: absolute;
+  right: 0.5rem;
+  top: 66px;
+}
+
+.settings__warning {
+  padding: 0.5rem 1rem;
+  background-color: #ff9f9f;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9;
+  border: 3px solid #000;
+  border-radius: 8px;
+}
+
+@media (min-width: 768px) {
+  .settings__headerImgInput_wrapper {
+    top: 108px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .settings__headerImgInput_wrapper {
+    top: 66px;
+  }
+}
+
+.settings__btnWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0.5rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+@media (min-width: 768px) {
+  .settings__btnWrapper {
+    padding-top: 3.5rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .settings__btnWrapper {
+    padding-top: 1rem;
+  }
+}
+
+.settings__btn {
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+.settings__btn--logout {
+  background-color: #ffb4b4;
+}
+
+.settings__pfpWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  top: -50px;
+}
+
+.settings__pfp {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  background-color: #fff;
+  border: 2.5px solid #fff;
+  border-radius: 4px;
+}
+
+.settings__pfpInputWrapper {
+  position: absolute;
+  top: 25%;
+}
+
+.settings__textWrapper {
+  transform: translateY(-35px);
+  padding: 1rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.settings__about {
+  font-size: 1rem;
+  font-family: inherit;
+  white-space: pre-wrap;
+}
+
+.settings__aboutInput {
+  font-family: inherit;
+  scrollbar-width: thin;
+  height: 250px;
+  border-radius: 8px;
+  padding: 0.5rem;
+  resize: none;
+}

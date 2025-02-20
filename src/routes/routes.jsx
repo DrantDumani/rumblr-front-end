@@ -1,7 +1,7 @@
 import { Auth } from '../pages/auth/Auth';
 import { Dashboard } from '../pages/dashboard/Dashboard';
 import { authAction } from '../utils/actions';
-import { authLoader, dashboardLoader } from '../utils/loaders';
+import { authLoader, dashboardLoader, settingsLoader } from '../utils/loaders';
 import { Index } from '../pages/Index/Index';
 import { Settings } from '../pages/settings/Settings';
 
@@ -18,6 +18,7 @@ export const routes = [
       {
         path: '/settings',
         element: <Settings />,
+        loader: settingsLoader,
       },
     ],
   },
