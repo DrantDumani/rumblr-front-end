@@ -1,19 +1,24 @@
 import Hamburger from '../../assets/icons/hamburger.svg?react';
-import { Link } from 'react-router';
+import { Link, useLocation, useRevalidator } from 'react-router';
 import { SearchFrom } from '../SearchForm/SearchForm';
 import styles from './DashNav.module.css';
 import PropTypes from 'prop-types';
 import { HeaderLinks } from '../HeaderLinks/HeaderLinks';
+import { useEffect } from 'react';
 
 export function DashNav({ showNav }) {
-  // const location = useLocation();
+  const revalidator = useRevalidator();
+  const location = useLocation();
 
-  // const resetDashBoard = () => {
-  //   if (location.pathname === '/') window.location.reload();
-  // };
+  const resetDash = () => {
+    if (location.pathname === '/') {
+      revalidator.revalidate();
+    }
+  };
 
-  // if the pathname is "/", you can just pass this component a function
-  // the function would use handle Data to make a call for the most recent posts, and it would update state
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [revalidator.state]);
 
   return (
     <div className={styles.topBar}>
@@ -21,7 +26,7 @@ export function DashNav({ showNav }) {
         <Hamburger />
       </button>
 
-      <Link to={'/'} className={styles.logoLink}>
+      <Link onClick={resetDash} to={'/'} className={styles.logoLink}>
         Rumblr
       </Link>
 

@@ -7,6 +7,7 @@ import { SearchFrom } from '../../components/SearchForm/SearchForm';
 import { HeaderLinks } from '../../components/HeaderLinks/HeaderLinks';
 import { PostForm } from '../../components/PostForm/PostForm';
 import { Outlet } from 'react-router';
+import { ScrollToTop } from '../../hooks/ScrollToTop';
 
 export function Dashboard() {
   const [showSideNav, setShowSideNav] = useState(false);
@@ -40,6 +41,7 @@ export function Dashboard() {
 
   return (
     <>
+      <ScrollToTop />
       <header
         inert={showSideNav || postModal ? '' : null}
         className={`${styles.header}`}
