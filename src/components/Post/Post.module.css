@@ -5,7 +5,7 @@
 .post {
   background-color: #ffffff;
   width: 100%;
-  max-width: 480px;
+  max-width: var(--max-main-width);
   overflow: hidden;
 }
 
@@ -31,8 +31,10 @@
 }
 
 .post__author_pfp {
-  width: 1.875rem;
+  width: 2rem;
+  height: 2rem;
   object-fit: contain;
+  border-radius: 4px;
 }
 
 .post__authorName {
@@ -56,7 +58,7 @@
 }
 
 .post__img {
-  width: 100%;
+  max-width: 100%;
   height: auto;
 }
 
