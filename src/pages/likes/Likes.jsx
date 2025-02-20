@@ -1,5 +1,7 @@
-import { Index } from '../Index/Index';
+import { useLoaderData } from 'react-router';
+import { PostList } from '../../components/PostList/PostList';
 
 export function Likes() {
-  return <Index />;
+  const likedPosts = useLoaderData().posts.map((like) => like.selfPost);
+  return <PostList postList={likedPosts} />;
 }
