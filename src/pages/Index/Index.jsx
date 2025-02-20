@@ -22,7 +22,7 @@ export function Index() {
         else {
           if (method === 'DELETE') {
             const newP = structuredClone(p);
-            newP.usersLiked = [];
+            newP.selfLiked = [];
             if (newP.parent) {
               newP.parent._count.usersLiked -= 1;
             } else {
@@ -31,7 +31,7 @@ export function Index() {
             return newP;
           } else {
             const newP = structuredClone(p);
-            newP.usersLiked = [{ user_id: 0 }];
+            newP.selfLiked = [{ user_id: 0 }];
             if (newP.parent) {
               newP.parent._count.usersLiked += 1;
             } else {

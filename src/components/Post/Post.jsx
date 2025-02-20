@@ -49,7 +49,7 @@ export function Post({
   };
 
   const handleLike = async (postId) => {
-    const method = post.usersLiked.length > 0 ? 'DELETE' : 'POST';
+    const method = post.selfLiked.length > 0 ? 'DELETE' : 'POST';
     // optimistic update
     likesUpdater(postId, method);
 
@@ -232,7 +232,7 @@ export function Post({
             <button
               onClick={() => handleLike(post.id)}
               aria-label="Like Post"
-              className={`${styles.post__svgBtn} ${post.usersLiked.length ? styles['post__svgBtn--like'] : ''}`}
+              className={`${styles.post__svgBtn} ${post.selfLiked.length ? styles['post__svgBtn--like'] : ''}`}
             >
               <Like />
             </button>

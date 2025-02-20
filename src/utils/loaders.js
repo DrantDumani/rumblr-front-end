@@ -39,6 +39,18 @@ export async function dashboardLoader() {
   }
 }
 
+export async function likesLoader() {
+  const req = async () => await handleData('likes');
+  const resp = await verifyTokenOnRequest(req);
+
+  if (!resp) {
+    redirect('/auth');
+  } else {
+    const likedPosts = await resp.json();
+    return likedPosts;
+  }
+}
+
 export async function settingsLoader() {
   const token = localStorage.getItem('token');
 
