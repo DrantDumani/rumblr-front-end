@@ -1,10 +1,11 @@
 import styles from './ProfilePic.module.css';
 import PropTypes from 'prop-types';
+import anon from '../../assets/icons/incognito.svg';
 
 export function ProfilePic({ children, imgSrc }) {
   return (
     <div className={styles.imgWrapper}>
-      <img className={styles.imgWrapper__pfp} src={imgSrc} alt="" />
+      <img className={styles.imgWrapper__pfp} src={imgSrc || anon} alt="" />
       {children}
     </div>
   );

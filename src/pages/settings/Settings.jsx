@@ -1,5 +1,3 @@
-import anon from '../../assets/icons/incognito.svg';
-import defHeader from '../../assets/images/default_header.png';
 import styles from './Settings.module.css';
 import { useState, useId } from 'react';
 import Edit from '../../assets/icons/edit.svg?react';
@@ -110,7 +108,7 @@ export function Settings() {
   return (
     <Profile>
       <HeaderImgWrapper
-        imgSrc={newHeader ? newHeader.src : userInfo.h_img || defHeader}
+        imgSrc={newHeader ? newHeader.src : userInfo.h_img || ''}
       >
         {canEdit && (
           <div className={styles.settings__headerImgInput_wrapper}>
@@ -137,6 +135,7 @@ export function Settings() {
               aboutText === userInfo.about &&
               !newPfp &&
               !newHeader) ||
+            fileLimitExceeded ||
             submitting
           }
           onClick={canEdit ? saveChanges : toggleEdit}
@@ -145,8 +144,12 @@ export function Settings() {
           {canEdit ? 'Save' : 'Edit'}
         </button>
       </div>
-
-      <ProfilePic imgSrc={newPfp ? newPfp.src : userInfo.pfp || anon}>
+      {fileLimitExceeded && (
+        <p className={styles.settings__warning}>
+          File size cannot be larger than 2 mb
+        </p>
+      )}
+      <ProfilePic imgSrc={newPfp ? newPfp.src : userInfo.pfp || ''}>
         {canEdit && (
           <div className={styles.settings__pfpInputWrapper}>
             <InputFileLabel
