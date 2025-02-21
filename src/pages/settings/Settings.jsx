@@ -6,6 +6,10 @@ import Edit from '../../assets/icons/edit.svg?react';
 import PropTypes from 'prop-types';
 import { handleData } from '../../utils/handleData';
 import { useLoaderData, useNavigate } from 'react-router';
+import { Profile } from '../../components/Profile/Profile';
+import { HeaderImgWrapper } from '../../components/HeaderImgWrapper/HeaderImgWrapper';
+import { ProfilePic } from '../../components/ProfilePic/ProfilePic';
+import { AboutUser } from '../../components/AboutUser/AboutUser';
 
 function InputFileLabel({ labelText, changeMedia }) {
   const id = useId();
@@ -104,78 +108,64 @@ export function Settings() {
   };
 
   return (
-    <div className={styles.settingsWrapper}>
-      <div className={styles.settings}>
-        <div className={styles.settings__imgWrapper}>
-          <img
-            className={styles.settings__headerImg}
-            src={newHeader ? newHeader.src : userInfo.h_img || defHeader}
-            alt=""
-          />
-          {canEdit && (
-            <div className={styles.settings__headerImgInput_wrapper}>
-              <InputFileLabel
-                labelText={'Edit Header Image'}
-                changeMedia={(e) => {
-                  toggleMedia(e.target.files[0], setNewHeader);
-                }}
-              />
-            </div>
-          )}
-          {fileLimitExceeded && (
-            <p className={styles.settings__warning}>
-              Images cannot individually exceed 2mb in file size
-            </p>
-          )}
-        </div>
-        <div className={styles.settings__btnWrapper}>
-          <button
-            disabled={submitting}
-            onClick={canEdit ? cancelEdits : logout}
-            className={`${styles.settings__btn} ${styles['settings__btn--logout']}`}
-          >
-            {canEdit ? 'Cancel' : 'Logout'}
-          </button>
-          <button
-            disabled={(canEdit && aboutText === userInfo.about) || submitting}
-            onClick={canEdit ? saveChanges : toggleEdit}
-            className={`${styles.settings__btn} `}
-          >
-            {canEdit ? 'Save' : 'Edit'}
-          </button>
-        </div>
-        <div className={styles.settings__pfpWrapper}>
-          <img
-            className={styles.settings__pfp}
-            src={newPfp ? newPfp.src : userInfo.pfp || anon}
-            alt=""
-          />
-          {canEdit && (
-            <div className={styles.settings__pfpInputWrapper}>
-              <InputFileLabel
-                labelText={'Edit profile picture'}
-                changeMedia={(e) => {
-                  toggleMedia(e.target.files[0], setNewPfp);
-                }}
-              />
-            </div>
-          )}
-        </div>
-        <div className={styles.settings__textWrapper}>
-          <h2 className={styles.settings__uname}>{userInfo.uname}</h2>
-          {!canEdit && (
-            <pre className={styles.settings__about}>{userInfo.about}</pre>
-          )}
-          {canEdit && (
-            <textarea
-              className={styles.settings__aboutInput}
-              maxLength={400}
-              value={aboutText}
-              onChange={changeAbout}
-            ></textarea>
-          )}
-        </div>
+    <Profile>
+      <HeaderImgWrapper
+        imgSrc={newHeader ? newHeader.src : userInfo.h_img || defHeader}
+      >
+        {canEdit && (
+          <div className={styles.settings__headerImgInput_wrapper}>
+            <InputFileLabel
+              labelText={'Edit Header Image'}
+              changeMedia={(e) => {
+                toggleMedia(e.target.files[0], setNewHeader);
+              }}
+            />
+          </div>
+        )}
+      </HeaderImgWrapper>
+      <div className={styles.settings__btnWrapper}>
+        <button
+          disabled={submitting}
+          onClick={canEdit ? cancelEdits : logout}
+          className={`${styles.settings__btn} ${styles['settings__btn--logout']}`}
+        >
+          {canEdit ? 'Cancel' : 'Logout'}
+        </button>
+        <button
+          disabled={
+            (canEdit &&
+              aboutText === userInfo.about &&
+              !newPfp &&
+              !newHeader) ||
+            submitting
+          }
+          onClick={canEdit ? saveChanges : toggleEdit}
+          className={`${styles.settings__btn} `}
+        >
+          {canEdit ? 'Save' : 'Edit'}
+        </button>
       </div>
-    </div>
+
+      <ProfilePic imgSrc={newPfp ? newPfp.src : userInfo.pfp || anon}>
+        {canEdit && (
+          <div className={styles.settings__pfpInputWrapper}>
+            <InputFileLabel
+              labelText={'Edit profile picture'}
+              changeMedia={(e) => {
+                toggleMedia(e.target.files[0], setNewPfp);
+              }}
+            />
+          </div>
+        )}
+      </ProfilePic>
+      <AboutUser about={userInfo.about} uname={userInfo.uname} cond={canEdit}>
+        <textarea
+          className={styles.settings__aboutInput}
+          maxLength={400}
+          value={aboutText}
+          onChange={changeAbout}
+        ></textarea>
+      </AboutUser>
+    </Profile>
   );
 }

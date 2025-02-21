@@ -1,0 +1,20 @@
+@media (min-width: 768px) {
+  .profileWrapper {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 1280px) {
+  .profileWrapper {
+    display: block;
+  }
+}
+
+.profile {
+  position: relative;
+  background-color: #fafafa;
+  width: 100%;
+  max-width: var(--max-main-width);
+  color: #000;
+}

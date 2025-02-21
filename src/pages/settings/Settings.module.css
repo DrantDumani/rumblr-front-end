@@ -20,37 +20,6 @@
   display: inline-block;
 }
 
-@media (min-width: 768px) {
-  .settingsWrapper {
-    display: flex;
-    justify-content: center;
-  }
-}
-
-@media (min-width: 1280px) {
-  .settingsWrapper {
-    display: block;
-  }
-}
-
-.settings {
-  position: relative;
-  background-color: #fafafa;
-  width: 100%;
-  max-width: var(--max-main-width);
-  color: #000;
-}
-
-.imgWrapper {
-  position: relative;
-}
-
-.settings__headerImg {
-  width: 100%;
-  height: 300px;
-  object-fit: cover;
-}
-
 .settings__headerImgInput_wrapper {
   position: absolute;
   right: 0.5rem;
@@ -118,41 +87,9 @@
   background-color: #ffb4b4;
 }
 
-.settings__pfpWrapper {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  position: relative;
-  top: -50px;
-}
-
-.settings__pfp {
-  width: 90px;
-  height: 90px;
-  object-fit: cover;
-  background-color: #fff;
-  border: 2.5px solid #fff;
-  border-radius: 4px;
-}
-
 .settings__pfpInputWrapper {
   position: absolute;
   top: 25%;
-}
-
-.settings__textWrapper {
-  transform: translateY(-35px);
-  padding: 1rem;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.settings__about {
-  font-size: 1rem;
-  font-family: inherit;
-  white-space: pre-wrap;
 }
 
 .settings__aboutInput {
