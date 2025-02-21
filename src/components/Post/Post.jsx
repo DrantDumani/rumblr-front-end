@@ -14,6 +14,7 @@ import { ModalBackdrop } from '../ModalBackdrop/ModalBackdrop';
 import { useState } from 'react';
 import { ConfirmDelete } from '../ConfirmDelete/ConfirmDelete';
 import { handleData } from '../../utils/handleData';
+import { Link } from 'react-router';
 
 export function Post({
   post,
@@ -73,7 +74,10 @@ export function Post({
       <article className={styles.post}>
         <header className={styles.post__header}>
           {/* replace with properly styled img later */}
-          <a className={styles.post__blogLink} href="">
+          <Link
+            to={`/blog/${post.author_id}`}
+            className={styles.post__blogLink}
+          >
             <img
               src={post.author.pfp || anon}
               className={styles.post__author_pfp}
@@ -93,7 +97,7 @@ export function Post({
                 {post.author.uname}
               </span>
             )}
-          </a>
+          </Link>
         </header>
 
         {post.segments.length === 1 &&
@@ -140,7 +144,10 @@ export function Post({
           : post.segments.map((segment) => (
               <div key={segment.id}>
                 <div className={styles.post__segmentHeader}>
-                  <a className={styles.post__blogLink} href="">
+                  <Link
+                    to={`/blog/${segment.author_id}`}
+                    className={styles.post__blogLink}
+                  >
                     <img
                       src={segment.author.pfp || anon}
                       className={styles.post__author_pfp}
@@ -148,7 +155,7 @@ export function Post({
                     <span className={styles.post__authorName}>
                       {segment.author.uname}
                     </span>
-                  </a>
+                  </Link>
                 </div>
 
                 {segment.post_type === 'text' && (

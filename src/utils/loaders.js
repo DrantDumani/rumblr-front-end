@@ -67,3 +67,23 @@ export async function settingsLoader() {
     return userData;
   }
 }
+
+export async function blogLoader({ params }) {
+  const userReq = async () => handleData(`users/${params.userId}`);
+  const postReq = async () => handleData(`posts/user/${params.userId}`);
+
+  const [userInfo, posts] = await Promise.all([
+    verifyTokenOnRequest(userReq),
+    verifyTokenOnRequest(postReq),
+  ]);
+
+  if (!userInfo || !posts) {
+    return redirect('/auth');
+  } else {
+    const [userData, postData] = await Promise.all([
+      userInfo.json(),
+      posts.json(),
+    ]);
+    return { userData, postData };
+  }
+}

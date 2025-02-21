@@ -3,6 +3,7 @@ import { Dashboard } from '../pages/dashboard/Dashboard';
 import { authAction } from '../utils/actions';
 import {
   authLoader,
+  blogLoader,
   dashboardLoader,
   likesLoader,
   settingsLoader,
@@ -10,6 +11,7 @@ import {
 import { Index } from '../pages/Index/Index';
 import { Settings } from '../pages/settings/Settings';
 import { Likes } from '../pages/likes/Likes';
+import { Blog } from '../pages/blog/Blog';
 
 export const routes = [
   {
@@ -30,6 +32,11 @@ export const routes = [
         path: '/likes',
         element: <Likes />,
         loader: likesLoader,
+      },
+      {
+        path: '/blog/:userId',
+        element: <Blog />,
+        loader: blogLoader,
       },
     ],
   },
