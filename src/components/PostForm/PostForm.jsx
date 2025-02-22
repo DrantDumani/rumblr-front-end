@@ -183,7 +183,7 @@ export function PostForm({
   return (
     <div className={styles.postForm__wrapper}>
       <div className={styles.postForm__header}>
-        <img className={styles.user_pfp} src={anon} alt="" />
+        <img className={styles.user_pfp} src={user.pfp || anon} alt="" />
         <span className={styles.postForm__username}>{user.username}</span>
       </div>
       {(reqType.type === 'edit' || reqType.type === 'reblog') && (
