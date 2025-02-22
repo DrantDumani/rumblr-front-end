@@ -15,6 +15,7 @@ import { useState } from 'react';
 import { ConfirmDelete } from '../ConfirmDelete/ConfirmDelete';
 import { handleData } from '../../utils/handleData';
 import { Link } from 'react-router';
+import { ReplyForm } from '../ReplyForm/ReplyForm';
 
 export function Post({
   post,
@@ -26,6 +27,7 @@ export function Post({
   const [displayDeleteForm, setDisplayDeleteForm] = useState(false);
   const [reqType, setReqType] = useState({ type: '', postId: 0 });
   const [throttle, setThrottle] = useState(false);
+  const [showReplyForm, setShowReplyForm] = useState(false);
 
   const notes = post.parent
     ? post.parent._count.usersLiked +
@@ -34,6 +36,8 @@ export function Post({
     : post._count.usersLiked + post._count.children + post._count.replies;
 
   const userInfo = jwtDecode(localStorage.getItem('token'));
+
+  const toggleReplyForm = () => setShowReplyForm((bool) => !bool);
 
   const toggleDisplayDelete = () => {
     setDisplayDeleteForm((prev) => !prev);
@@ -65,6 +69,11 @@ export function Post({
       }
       setThrottle(false);
     }
+  };
+
+  const handleReplySuccess = () => {
+    setShowReplyForm(false);
+    // perhaps display the list of replies after sending this
   };
 
   const togglePostModal = (str) => setPostModal(str);
@@ -221,29 +230,34 @@ export function Post({
         </div>
 
         <footer className={styles.post__footer}>
-          <button className={styles.post__notesBtn}>
-            <span className={styles.post__notesNum}>{notes}</span>{' '}
-            {notes === 1 ? 'note' : 'notes'}
-          </button>
-          <div className={styles.post__btnWrapper}>
-            <button className={styles.post__svgBtn}>
-              <Reply />
+          <div className={styles.footer__btnBar}>
+            <button className={styles.post__notesBtn}>
+              <span className={styles.post__notesNum}>{notes}</span>{' '}
+              {notes === 1 ? 'note' : 'notes'}
             </button>
-            <button
-              aria-label="Reblog post"
-              onClick={reblogForm}
-              className={`${styles.post__svgBtn}`}
-            >
-              <Reblog />
-            </button>
-            <button
-              onClick={() => handleLike(post.id)}
-              aria-label="Like Post"
-              className={`${styles.post__svgBtn} ${post.selfLiked.length ? styles['post__svgBtn--like'] : ''}`}
-            >
-              <Like />
-            </button>
+            <div className={styles.post__btnWrapper}>
+              <button onClick={toggleReplyForm} className={styles.post__svgBtn}>
+                <Reply />
+              </button>
+              <button
+                aria-label="Reblog post"
+                onClick={reblogForm}
+                className={`${styles.post__svgBtn}`}
+              >
+                <Reblog />
+              </button>
+              <button
+                onClick={() => handleLike(post.id)}
+                aria-label="Like Post"
+                className={`${styles.post__svgBtn} ${post.selfLiked.length ? styles['post__svgBtn--like'] : ''}`}
+              >
+                <Like />
+              </button>
+            </div>
           </div>
+          {showReplyForm && (
+            <ReplyForm postId={post.id} onSubmitSucces={handleReplySuccess} />
+          )}
         </footer>
       </article>
       {(postModal || displayDeleteForm) && <ModalBackdrop />}
