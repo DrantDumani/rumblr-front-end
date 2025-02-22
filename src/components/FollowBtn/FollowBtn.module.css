@@ -1,7 +1,13 @@
 .btnContainer {
   text-align: center;
-  margin-bottom: auto;
+  margin-bottom: 0;
+  margin-top: auto;
+}
+
+.btnContainer--top {
   transform: translateY(-35px);
+  margin-top: 0;
+  margin-bottom: auto;
 }
 
 .followBtn {

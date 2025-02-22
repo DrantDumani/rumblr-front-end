@@ -1,0 +1,47 @@
+.userWrapper {
+  background-color: #ffffff;
+  max-width: var(--max-main-width);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+}
+
+@media (min-width: 768px) {
+  .userWrapper {
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 1280px) {
+  .userWrapper {
+    display: grid;
+    margin: 0 0 0 1rem;
+  }
+}
+
+.user__card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.user__blogLink {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  align-items: center;
+  text-decoration: none;
+  color: #000;
+  font-weight: 500;
+}
+
+.user__pfp {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.user__uname {
+  text-align: center;
+}

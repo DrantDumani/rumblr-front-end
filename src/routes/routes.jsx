@@ -7,11 +7,13 @@ import {
   dashboardLoader,
   likesLoader,
   settingsLoader,
+  usersLoader,
 } from '../utils/loaders';
 import { Index } from '../pages/Index/Index';
 import { Settings } from '../pages/settings/Settings';
 import { Likes } from '../pages/likes/Likes';
 import { Blog } from '../pages/blog/Blog';
+import { Users } from '../pages/users/Users';
 
 export const routes = [
   {
@@ -37,6 +39,11 @@ export const routes = [
         path: '/blog/:userId',
         element: <Blog />,
         loader: blogLoader,
+      },
+      {
+        path: '/users',
+        element: <Users />,
+        loader: usersLoader,
       },
     ],
   },

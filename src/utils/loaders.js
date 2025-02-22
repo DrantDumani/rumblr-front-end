@@ -87,3 +87,15 @@ export async function blogLoader({ params }) {
     return { userData, postData };
   }
 }
+
+export async function usersLoader() {
+  const req = async () => handleData('users');
+  const resp = await verifyTokenOnRequest(req);
+
+  if (!resp) {
+    return redirect('/auth');
+  } else {
+    const users = await resp.json();
+    return users;
+  }
+}

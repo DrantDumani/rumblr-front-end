@@ -9,13 +9,17 @@ import Audio from '../../assets/icons/audio_side_nav.svg?react';
 import Video from '../../assets/icons/video_side_nav.svg?react';
 import Messages from '../../assets/icons/messages_side_nav.svg?react';
 import Settings from '../../assets/icons/settings.svg?react';
+import Blog from '../../assets/icons/blog.svg?react';
+import Users from '../../assets/icons/users.svg?react';
 import PropTypes from 'prop-types';
+import { jwtDecode } from 'jwt-decode';
 
 export function SideNav({
   showMobileSideNav = false,
   hideMobileSideNav = () => {},
   togglePostModal,
 }) {
+  const userId = jwtDecode(localStorage.getItem('token')).id;
   return (
     <menu
       className={`${styles.sideNav} ${showMobileSideNav && styles['sideNav--active']}`}
@@ -122,6 +126,26 @@ export function SideNav({
                 <Link className={styles.sideNavOption}>
                   <Messages aria-hidden="true" />
                   <span>Messages</span>
+                </Link>
+              </li>
+              <li className={styles.sideNav__item}>
+                <Link
+                  className={styles.sideNavOption}
+                  onClick={hideMobileSideNav}
+                  to={`blog/${userId}`}
+                >
+                  <Blog aria-hidden="true" />
+                  <span>Blog</span>
+                </Link>
+              </li>
+              <li className={styles.sideNav__item}>
+                <Link
+                  className={styles.sideNavOption}
+                  onClick={hideMobileSideNav}
+                  to={'users'}
+                >
+                  <Users aria-hidden="true" />
+                  <span>Users</span>
                 </Link>
               </li>
               <li className={styles.sideNav__item}>
