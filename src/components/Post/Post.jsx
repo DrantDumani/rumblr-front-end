@@ -72,6 +72,17 @@ export function Post({
     }
   };
 
+  const handleDelete = async (postId) => {
+    const resp = await handleData(`posts/${postId}`, undefined, 'DELETE');
+
+    if (resp.ok) {
+      const data = await resp.json();
+      const { deleted_postId } = data;
+      deleteUpdater(deleted_postId);
+      toggleDisplayDelete();
+    }
+  };
+
   const togglePostModal = (str) => setPostModal(str);
 
   return (
@@ -266,6 +277,7 @@ export function Post({
               postAuthorId={post.parent?.author_id || post.author_id}
               postId={post.parent_id || post.id}
               handleReplyNotes={handleReplyNotes}
+              userId={Number(userInfo.id)}
             />
           )}
         </footer>
@@ -274,8 +286,9 @@ export function Post({
       {displayDeleteForm && (
         <ConfirmDelete
           postId={post.id}
-          deleteFn={deleteUpdater}
-          cancelFn={toggleDisplayDelete}
+          deleteFn={handleDelete}
+          closeDialogFn={toggleDisplayDelete}
+          dialogText={'Are you sure you want to delete this post?'}
         />
       )}
       {postModal && (

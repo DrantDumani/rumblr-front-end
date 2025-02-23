@@ -1,9 +1,8 @@
 import styles from './ConfirmDelete.module.css';
 import PropTypes from 'prop-types';
 import { useEffect, useRef } from 'react';
-import { handleData } from '../../utils/handleData';
 
-export function ConfirmDelete({ postId, deleteFn, cancelFn }) {
+export function ConfirmDelete({ postId, deleteFn, closeDialogFn, dialogText }) {
   const dialogRef = useRef(null);
   useEffect(() => {
     const dialog = dialogRef;
@@ -12,28 +11,16 @@ export function ConfirmDelete({ postId, deleteFn, cancelFn }) {
     }
   }, []);
 
-  const handleDelete = async (postId) => {
-    const resp = await handleData(`posts/${postId}`, undefined, 'DELETE');
-
-    if (resp.ok) {
-      const data = await resp.json();
-      const { deleted_postId } = data;
-      deleteFn(deleted_postId);
-      cancelFn();
-    }
-  };
   return (
     <dialog ref={dialogRef} className={styles.confirmModal}>
-      <p className={styles.confirmModal__text}>
-        Are you sure you want to delete this post?
-      </p>
+      <p className={styles.confirmModal__text}>{dialogText}</p>
       <div className={styles.confirmModal__btnWrapper}>
-        <button className={styles.confirmModal__btn} onClick={cancelFn}>
+        <button className={styles.confirmModal__btn} onClick={closeDialogFn}>
           Cancel
         </button>
         <button
           className={`${styles.confirmModal__btn} ${styles['confirmModal__btn--confirm']}`}
-          onClick={() => handleDelete(postId)}
+          onClick={() => deleteFn(postId)}
         >
           Yes
         </button>
@@ -45,5 +32,6 @@ export function ConfirmDelete({ postId, deleteFn, cancelFn }) {
 ConfirmDelete.propTypes = {
   postId: PropTypes.number,
   deleteFn: PropTypes.func,
-  cancelFn: PropTypes.func,
+  closeDialogFn: PropTypes.func,
+  dialogText: PropTypes.string,
 };

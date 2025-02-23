@@ -5,9 +5,13 @@ import styles from './ReplyList.module.css';
 import PropTypes from 'prop-types';
 import { handleData } from '../../utils/handleData';
 import { ReplyForm } from '../ReplyForm/ReplyForm';
+import { ConfirmDelete } from '../ConfirmDelete/ConfirmDelete';
+import { ModalBackdrop } from '../ModalBackdrop/ModalBackdrop';
 
-export function ReplyList({ postAuthorId, postId, handleReplyNotes }) {
+export function ReplyList({ postAuthorId, postId, handleReplyNotes, userId }) {
   const [replies, setReplies] = useState([]);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [selectedReplyId, setSelectedReplyId] = useState(0);
 
   useEffect(() => {
     const fetchReplies = async () => {
@@ -24,6 +28,29 @@ export function ReplyList({ postAuthorId, postId, handleReplyNotes }) {
   const handleReplySuccess = (reply) => {
     setReplies((prev) => [reply].concat(prev));
     handleReplyNotes(reply.post_id, 'CREATE');
+  };
+
+  const toggleDeleteDialog = () => {
+    setShowDeleteDialog((bool) => !bool);
+  };
+
+  const selectReply = (replyId) => {
+    setSelectedReplyId(replyId);
+    toggleDeleteDialog();
+  };
+
+  const deletReply = async (id) => {
+    const resp = await handleData(`replies/${id}`, undefined, 'DELETE');
+
+    if (resp.ok) {
+      const data = await resp.json();
+
+      setReplies((prev) => prev.filter((r) => r.id !== data.deleted_id));
+      handleReplyNotes(data.deleted_id, 'DELETE');
+    }
+    toggleDeleteDialog();
+    // consider handling the waiting time while the user waits for the server to delete their post
+    // could also close the modal first and display a loading screen
   };
 
   return (
@@ -44,9 +71,16 @@ export function ReplyList({ postAuthorId, postId, handleReplyNotes }) {
                   {postAuthorId === reply.author_id && (
                     <p className={styles.reply__reminder}>Original Poster</p>
                   )}
-                  <button className={styles.reply__delBtn}>
-                    <Trash aria-label="Delete Reply" />
-                  </button>
+                  {userId === reply.author_id && (
+                    <button
+                      onClick={() => {
+                        selectReply(reply.id);
+                      }}
+                      className={styles.reply__delBtn}
+                    >
+                      <Trash aria-label="Delete Reply" />
+                    </button>
+                  )}
                 </div>
                 <p className={styles.reply__content}>{reply.content}</p>
               </div>
@@ -54,6 +88,17 @@ export function ReplyList({ postAuthorId, postId, handleReplyNotes }) {
           </div>
         ))}
       </div>
+      {showDeleteDialog && (
+        <>
+          <ModalBackdrop />
+          <ConfirmDelete
+            postId={selectedReplyId}
+            deleteFn={deletReply}
+            closeDialogFn={toggleDeleteDialog}
+            dialogText={'Are you sure you want to delete this reply?'}
+          />
+        </>
+      )}
     </>
   );
 }
@@ -62,4 +107,5 @@ ReplyList.propTypes = {
   postAuthorId: PropTypes.number,
   postId: PropTypes.number,
   handleReplyNotes: PropTypes.func,
+  userId: PropTypes.number,
 };

@@ -1,11 +1,9 @@
 import styles from './PostList.module.css';
-// import { useLoaderData } from 'react-router';
 import { useState } from 'react';
 import { Post } from '../Post/Post';
 import PropTypes from 'prop-types';
 
 export function PostList({ postList }) {
-  // const postData = useLoaderData();
   const [posts, setPosts] = useState(postList);
 
   const updateEditedPost = (post) => {
@@ -44,7 +42,6 @@ export function PostList({ postList }) {
   };
 
   const handleReplyNotes = (id, verb) => {
-    console.log(id, verb);
     setPosts((prev) =>
       prev.map((p) => {
         if (p.id !== id) return p;
