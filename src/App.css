@@ -64,6 +64,11 @@ body {
   --quote-font-size: clamp(1rem, 5vw, 2rem);
   --chat-font-family: 'Courier New', Courier, monospace;
   --max-main-width: 480px;
+  --post-section-border: #c1c1c1;
+  --reply-pfp-width: 32px;
+  --reply-pfp-height: 32px;
+  --reply-pfp-radius: 50%;
+  --reply-pfp-fit: contain;
 }
 
 body {
