@@ -21,25 +21,49 @@ export function PostList({ postList }) {
       prev.map((p) => {
         if (p.id !== id) return p;
         else {
+          const newP = structuredClone(p);
           if (method === 'DELETE') {
-            const newP = structuredClone(p);
             newP.selfLiked = [];
             if (newP.parent) {
               newP.parent._count.usersLiked -= 1;
             } else {
               newP._count.usersLiked -= 1;
             }
-            return newP;
           } else {
-            const newP = structuredClone(p);
             newP.selfLiked = [{ user_id: 0 }];
             if (newP.parent) {
               newP.parent._count.usersLiked += 1;
             } else {
               newP._count.usersLiked += 1;
             }
-            return newP;
           }
+          return newP;
+        }
+      })
+    );
+  };
+
+  const handleReplyNotes = (id, verb) => {
+    console.log(id, verb);
+    setPosts((prev) =>
+      prev.map((p) => {
+        if (p.id !== id) return p;
+        else {
+          const newP = structuredClone(p);
+          if (verb === 'CREATE') {
+            if (newP.parent) {
+              newP.parent._count.replies += 1;
+            } else {
+              newP._count.replies += 1;
+            }
+          } else if (verb === 'DELETE') {
+            if (newP.parent) {
+              newP.parent._count.replies -= 1;
+            } else {
+              newP._count.replies -= 1;
+            }
+          }
+          return newP;
         }
       })
     );
@@ -54,6 +78,7 @@ export function PostList({ postList }) {
           editUpdater={updateEditedPost}
           deleteUpdater={deletePost}
           likesUpdater={togglePostLike}
+          handleReplyNotes={handleReplyNotes}
         />
       ))}
     </div>

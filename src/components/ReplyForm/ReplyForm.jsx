@@ -17,7 +17,6 @@ export function ReplyForm({ postId, onSubmitSucces }) {
 
   const submitReply = async () => {
     if (!validReply) return;
-    console.log(reply);
 
     // disable form submission to prevent the user from accidentally submitting duplicate replies
     // you may add a loading animation here in this component
@@ -30,10 +29,13 @@ export function ReplyForm({ postId, onSubmitSucces }) {
     if (resp.ok) {
       // we don't need to render anything here. Just clear the reply state
       setReply('');
-      onSubmitSucces();
+      const data = await resp.json();
+
+      onSubmitSucces(data.reply);
       // you should also close the reply form when the reply is successful. Can't be done from here tho
       // you can also confirm that the reply was sent. You can do this by opening the list of replies,
       // which can be handled later
+      // WRONG. DON'T CLOSE SHIT. JUST UPDATE THE LIST OF REPLIES
     } else {
       // let the user know that the reply did not go through
     }

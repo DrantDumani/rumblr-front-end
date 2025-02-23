@@ -1,5 +1,5 @@
 .form {
-  border: 1px solid #c1c1c1;
+  border-top: 1px solid var(--post-section-border);
   padding: 1rem;
 }
 
@@ -34,10 +34,10 @@
 }
 
 .form__pfp {
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  object-fit: contain;
+  border-radius: var(--reply-pfp-radius);
+  width: var(--reply-pfp-width);
+  height: var(--reply-pfp-height);
+  object-fit: var(--reply-pfp-fit);
 }
 
 .form__inputWrapper {

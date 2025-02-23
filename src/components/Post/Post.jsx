@@ -15,19 +15,20 @@ import { useState } from 'react';
 import { ConfirmDelete } from '../ConfirmDelete/ConfirmDelete';
 import { handleData } from '../../utils/handleData';
 import { Link } from 'react-router';
-import { ReplyForm } from '../ReplyForm/ReplyForm';
+import { ReplyList } from '../ReplyList/ReplyList';
 
 export function Post({
   post,
   editUpdater = () => {},
   deleteUpdater = () => {},
   likesUpdater = () => {},
+  handleReplyNotes = () => {},
 }) {
   const [postModal, setPostModal] = useState('');
   const [displayDeleteForm, setDisplayDeleteForm] = useState(false);
   const [reqType, setReqType] = useState({ type: '', postId: 0 });
   const [throttle, setThrottle] = useState(false);
-  const [showReplyForm, setShowReplyForm] = useState(false);
+  const [showReplies, setShowReplies] = useState(false);
 
   const notes = post.parent
     ? post.parent._count.usersLiked +
@@ -37,7 +38,7 @@ export function Post({
 
   const userInfo = jwtDecode(localStorage.getItem('token'));
 
-  const toggleReplyForm = () => setShowReplyForm((bool) => !bool);
+  const toggleReplies = () => setShowReplies((bool) => !bool);
 
   const toggleDisplayDelete = () => {
     setDisplayDeleteForm((prev) => !prev);
@@ -71,18 +72,12 @@ export function Post({
     }
   };
 
-  const handleReplySuccess = () => {
-    setShowReplyForm(false);
-    // perhaps display the list of replies after sending this
-  };
-
   const togglePostModal = (str) => setPostModal(str);
 
   return (
     <>
       <article className={styles.post}>
         <header className={styles.post__header}>
-          {/* replace with properly styled img later */}
           <Link
             to={`/blog/${post.author_id}`}
             className={styles.post__blogLink}
@@ -231,12 +226,23 @@ export function Post({
 
         <footer className={styles.post__footer}>
           <div className={styles.footer__btnBar}>
-            <button className={styles.post__notesBtn}>
-              <span className={styles.post__notesNum}>{notes}</span>{' '}
-              {notes === 1 ? 'note' : 'notes'}
+            <button
+              onClick={toggleReplies}
+              className={`${styles.post__notesBtn} ${showReplies ? styles['post__notesBtn--close'] : ''}`}
+            >
+              <span className={styles.post__notesNum}>
+                {showReplies ? <>&#10006;</> : notes}
+              </span>{' '}
+              {showReplies ? (
+                <span className={styles['post__notesBtn--mobile-only']}>
+                  Close Notes
+                </span>
+              ) : (
+                <>{notes === 1 ? 'note' : 'notes'}</>
+              )}
             </button>
             <div className={styles.post__btnWrapper}>
-              <button onClick={toggleReplyForm} className={styles.post__svgBtn}>
+              <button onClick={toggleReplies} className={styles.post__svgBtn}>
                 <Reply />
               </button>
               <button
@@ -255,8 +261,12 @@ export function Post({
               </button>
             </div>
           </div>
-          {showReplyForm && (
-            <ReplyForm postId={post.id} onSubmitSucces={handleReplySuccess} />
+          {showReplies && (
+            <ReplyList
+              postAuthorId={post.parent?.author_id || post.author_id}
+              postId={post.parent_id || post.id}
+              handleReplyNotes={handleReplyNotes}
+            />
           )}
         </footer>
       </article>
@@ -287,4 +297,5 @@ Post.propTypes = {
   editUpdater: PropTypes.func,
   deleteUpdater: PropTypes.func,
   likesUpdater: PropTypes.func,
+  handleReplyNotes: PropTypes.func,
 };
