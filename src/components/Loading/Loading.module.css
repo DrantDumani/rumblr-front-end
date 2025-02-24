@@ -1,0 +1,26 @@
+.loadingWrapper {
+  background-color: var(--bg-color);
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  padding: 1rem;
+}
+
+@media (min-width: 1280px) {
+  .loadingWrapper {
+    max-width: var(--max-main-width);
+    margin-left: 1rem;
+  }
+}
+
+.loader {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  background-color: #808080;
+  transition: transform ease 0.3s;
+}
+
+.large {
+  transform: scale(1.3);
+}

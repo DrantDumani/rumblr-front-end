@@ -2,9 +2,10 @@ import styles from './PostList.module.css';
 import { forwardRef } from 'react';
 import { Post } from '../Post/Post';
 import PropTypes from 'prop-types';
+import { Loading } from '../Loading/Loading';
 
 export const PostList = forwardRef(function PostList(
-  { posts, setPosts },
+  { posts, setPosts, isLoading },
   anchorRef
 ) {
   const updateEditedPost = (post) => {
@@ -68,23 +69,27 @@ export const PostList = forwardRef(function PostList(
   };
 
   return (
-    <div className={styles.postListWrapper}>
-      {posts.map((post, i, arr) => (
-        <Post
-          ref={i === arr.length - 2 ? anchorRef : null}
-          key={post.id}
-          post={post}
-          editUpdater={updateEditedPost}
-          deleteUpdater={deletePost}
-          likesUpdater={togglePostLike}
-          handleReplyNotes={handleReplyNotes}
-        />
-      ))}
-    </div>
+    <>
+      <div className={styles.postListWrapper}>
+        {posts.map((post, i, arr) => (
+          <Post
+            ref={arr.length >= 10 && i === arr.length - 2 ? anchorRef : null}
+            key={post.id}
+            post={post}
+            editUpdater={updateEditedPost}
+            deleteUpdater={deletePost}
+            likesUpdater={togglePostLike}
+            handleReplyNotes={handleReplyNotes}
+          />
+        ))}
+      </div>
+      {isLoading && <Loading />}
+    </>
   );
 });
 
 PostList.propTypes = {
   posts: PropTypes.arrayOf(PropTypes.object),
   setPosts: PropTypes.func,
+  isLoading: PropTypes.bool,
 };

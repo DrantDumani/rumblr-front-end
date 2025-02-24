@@ -7,12 +7,14 @@ export function Index() {
   const postData = useLoaderData().posts;
   const anchorRef = useRef(null);
   const [posts, setPosts] = useState(postData);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(async (entries, observer) => {
       const entry = entries[0];
       if (entry.isIntersecting) {
         observer.disconnect();
+        setIsLoading(true);
         const cursor = posts[posts.length - 1].id;
         const resp = await handleData(`posts?cursor=${cursor}`);
 
@@ -26,12 +28,20 @@ export function Index() {
             });
           }
         }
+        setIsLoading(false);
       }
     });
-    observer.observe(anchorRef.current);
+    anchorRef.current && observer.observe(anchorRef.current);
 
     return () => observer.disconnect();
   }, [posts]);
 
-  return <PostList posts={posts} setPosts={setPosts} ref={anchorRef} />;
+  return (
+    <PostList
+      posts={posts}
+      setPosts={setPosts}
+      ref={anchorRef}
+      isLoading={isLoading}
+    />
+  );
 }

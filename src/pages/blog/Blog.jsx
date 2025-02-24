@@ -13,6 +13,7 @@ export function Blog() {
   const { userData, postData } = useLoaderData();
   const [posts, setPosts] = useState(postData.posts);
   const anchorRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const userId = jwtDecode(localStorage.getItem('token')).id;
 
@@ -29,6 +30,7 @@ export function Blog() {
       const entry = entries[0];
       if (entry.isIntersecting) {
         observer.disconnect();
+        setIsLoading(true);
         const cursor = posts[posts.length - 1].id;
         const resp = await handleData(`posts/user/${userId}?cursor=${cursor}`);
 
@@ -42,6 +44,7 @@ export function Blog() {
             });
           }
         }
+        setIsLoading(false);
       }
     });
     anchorRef.current && observer.observe(anchorRef.current);
@@ -63,7 +66,12 @@ export function Blog() {
         )}
       </Profile>
 
-      <PostList posts={posts} setPosts={setPosts} ref={anchorRef} />
+      <PostList
+        posts={posts}
+        setPosts={setPosts}
+        ref={anchorRef}
+        isLoading={isLoading}
+      />
     </>
   );
 }

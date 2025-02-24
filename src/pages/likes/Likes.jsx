@@ -7,12 +7,14 @@ export function Likes() {
   const likedPosts = useLoaderData().posts.map((like) => like.selfPost);
   const anchorRef = useRef(null);
   const [posts, setPosts] = useState(likedPosts);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(async (entries, observer) => {
       const entry = entries[0];
       if (entry.isIntersecting) {
         observer.disconnect();
+        setIsLoading(true);
         const cursor = posts[posts.length - 1].id;
         const resp = await handleData(`likes?cursor=${cursor}`);
 
@@ -28,12 +30,20 @@ export function Likes() {
             });
           }
         }
+        setIsLoading(false);
       }
     });
-    observer.observe(anchorRef.current);
+    anchorRef.current && observer.observe(anchorRef.current);
 
     return () => observer.disconnect();
   }, [posts]);
 
-  return <PostList posts={posts} setPosts={setPosts} ref={anchorRef} />;
+  return (
+    <PostList
+      posts={posts}
+      setPosts={setPosts}
+      ref={anchorRef}
+      isLoading={isLoading}
+    />
+  );
 }
