@@ -117,6 +117,8 @@ export async function searchLoader({ request }) {
   const url = new URL(request.url);
   const searchTerm = url.searchParams.get('q');
 
+  if (!searchTerm) return [];
+
   const req = async () => handleData(`posts/tag?tagName=${searchTerm}`);
   const resp = await verifyTokenOnRequest(req);
 
