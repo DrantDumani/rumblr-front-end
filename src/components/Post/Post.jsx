@@ -12,19 +12,22 @@ import Share from '../../assets/icons/share.svg?react';
 import { jwtDecode } from 'jwt-decode';
 import { PostForm } from '../PostForm/PostForm';
 import { ModalBackdrop } from '../ModalBackdrop/ModalBackdrop';
-import { useState } from 'react';
+import { useState, forwardRef } from 'react';
 import { ConfirmDelete } from '../ConfirmDelete/ConfirmDelete';
 import { handleData } from '../../utils/handleData';
 import { Link } from 'react-router';
 import { ReplyList } from '../ReplyList/ReplyList';
 
-export function Post({
-  post,
-  editUpdater = () => {},
-  deleteUpdater = () => {},
-  likesUpdater = () => {},
-  handleReplyNotes = () => {},
-}) {
+export const Post = forwardRef(function Post(
+  {
+    post,
+    editUpdater = () => {},
+    deleteUpdater = () => {},
+    likesUpdater = () => {},
+    handleReplyNotes = () => {},
+  },
+  anchorRef
+) {
   const [postModal, setPostModal] = useState('');
   const [displayDeleteForm, setDisplayDeleteForm] = useState(false);
   const [reqType, setReqType] = useState({ type: '', postId: 0 });
@@ -88,7 +91,7 @@ export function Post({
 
   return (
     <>
-      <article className={styles.post}>
+      <article className={styles.post} ref={anchorRef}>
         <header className={styles.post__header}>
           <Link
             to={`/blog/${post.author_id}`}
@@ -311,7 +314,8 @@ export function Post({
       )}
     </>
   );
-}
+});
+// export
 
 Post.propTypes = {
   post: PropTypes.object,

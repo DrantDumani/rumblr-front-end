@@ -1,11 +1,12 @@
 import styles from './PostList.module.css';
-import { useState } from 'react';
+import { forwardRef } from 'react';
 import { Post } from '../Post/Post';
 import PropTypes from 'prop-types';
 
-export function PostList({ postList }) {
-  const [posts, setPosts] = useState(postList);
-
+export const PostList = forwardRef(function PostList(
+  { posts, setPosts },
+  anchorRef
+) {
   const updateEditedPost = (post) => {
     setPosts((prev) => prev.map((p) => (p.id !== post.id ? p : post)));
   };
@@ -68,8 +69,9 @@ export function PostList({ postList }) {
 
   return (
     <div className={styles.postListWrapper}>
-      {posts.map((post) => (
+      {posts.map((post, i, arr) => (
         <Post
+          ref={i === arr.length - 2 ? anchorRef : null}
           key={post.id}
           post={post}
           editUpdater={updateEditedPost}
@@ -80,8 +82,9 @@ export function PostList({ postList }) {
       ))}
     </div>
   );
-}
+});
 
 PostList.propTypes = {
-  postList: PropTypes.arrayOf(PropTypes.object),
+  posts: PropTypes.arrayOf(PropTypes.object),
+  setPosts: PropTypes.func,
 };
