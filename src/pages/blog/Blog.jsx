@@ -34,7 +34,6 @@ export function Blog() {
 
         if (resp.ok) {
           const { posts } = await resp.json();
-          console.log(posts);
           if (posts.length) {
             setPosts((prev) => {
               if (prev.length >= 100) {
