@@ -8,6 +8,7 @@ import {
   likesLoader,
   searchLoader,
   settingsLoader,
+  singlePostLoader,
   usersLoader,
 } from '../utils/loaders';
 import { Index } from '../pages/Index/Index';
@@ -16,6 +17,7 @@ import { Likes } from '../pages/likes/Likes';
 import { Blog } from '../pages/blog/Blog';
 import { Users } from '../pages/users/Users';
 import { Search } from '../pages/search/Search';
+import { PostPage } from '../pages/post/PostPage';
 
 export const routes = [
   {
@@ -41,6 +43,11 @@ export const routes = [
         path: '/blog/:userId',
         element: <Blog />,
         loader: blogLoader,
+      },
+      {
+        path: '/post/:postId',
+        element: <PostPage />,
+        loader: singlePostLoader,
       },
       {
         path: '/users',

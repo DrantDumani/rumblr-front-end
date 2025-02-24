@@ -100,6 +100,19 @@ export async function usersLoader() {
   }
 }
 
+export async function singlePostLoader({ params }) {
+  const { postId } = params;
+  const req = async () => handleData(`posts/${postId}`);
+  const resp = await verifyTokenOnRequest(req);
+
+  if (!resp) {
+    return redirect('/auth');
+  } else {
+    const singlePost = (await resp.json()).post;
+    return [singlePost];
+  }
+}
+
 export async function searchLoader({ request }) {
   const url = new URL(request.url);
   const searchTerm = url.searchParams.get('q');

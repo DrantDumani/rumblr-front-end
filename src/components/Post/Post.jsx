@@ -8,6 +8,7 @@ import Edit from '../../assets/icons/edit.svg?react';
 import Reply from '../../assets/icons/message.svg?react';
 import Like from '../../assets/icons/like.svg?react';
 import Reblog from '../../assets/icons/reblog.svg?react';
+import Share from '../../assets/icons/share.svg?react';
 import { jwtDecode } from 'jwt-decode';
 import { PostForm } from '../PostForm/PostForm';
 import { ModalBackdrop } from '../ModalBackdrop/ModalBackdrop';
@@ -257,6 +258,9 @@ export function Post({
               )}
             </button>
             <div className={styles.post__btnWrapper}>
+              <Link to={`/post/${post.id}`} className={styles.post__svgBtn}>
+                <Share aria-label="Perma-link" />
+              </Link>
               <button onClick={toggleReplies} className={styles.post__svgBtn}>
                 <Reply />
               </button>
