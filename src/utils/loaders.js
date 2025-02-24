@@ -99,3 +99,18 @@ export async function usersLoader() {
     return users;
   }
 }
+
+export async function searchLoader({ request }) {
+  const url = new URL(request.url);
+  const searchTerm = url.searchParams.get('q');
+
+  const req = async () => handleData(`posts/tag?tagName=${searchTerm}`);
+  const resp = await verifyTokenOnRequest(req);
+
+  if (!resp) {
+    return redirect('/auth');
+  } else {
+    const taggedPosts = await resp.json();
+    return taggedPosts;
+  }
+}

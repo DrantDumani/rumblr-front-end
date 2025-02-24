@@ -215,9 +215,13 @@ export function Post({
         <div className={styles.post__userControls_flex}>
           <div className={styles.post__tagWrapper}>
             {post.tags.map((tag) => (
-              <a key={tag.id} href="" className={styles.post__tag}>
+              <Link
+                key={tag.id}
+                to={`/search?q=${tag.content}`}
+                className={styles.post__tag}
+              >
                 #{tag.content}
-              </a>
+              </Link>
             ))}
           </div>
           {userInfo.id === post.author.id && (

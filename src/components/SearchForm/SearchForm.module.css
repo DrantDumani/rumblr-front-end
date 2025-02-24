@@ -5,19 +5,21 @@
 
 .searchLabel {
   position: absolute;
-  top: 8.5px;
-  left: 5px;
+  top: 8.5008px;
+  left: 8px;
 }
 
 .searchInput {
   width: 100%;
   background-color: #103257;
-  border-radius: 0.75rem;
-  padding: 0.5rem 0.3rem 0.5rem 1.625rem;
+  border-radius: 1rem;
+  padding: 0.5rem 0.3rem 0.5rem 29px;
   color: inherit;
   border: none;
+  font-family: inherit;
+  font-size: 1rem;
 
   &:focus {
-    outline: 2.5px solid #77ffff;
+    outline: 2.5008px solid #77ffff;
   }
 }

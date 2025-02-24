@@ -7,7 +7,7 @@ export function SearchFrom() {
   const id = useId();
   return (
     <search>
-      <Form className={styles.searchForm}>
+      <Form action="/search" className={styles.searchForm} method="get">
         <label
           aria-labelledby="searchTag"
           htmlFor={id}
@@ -15,7 +15,13 @@ export function SearchFrom() {
         >
           <Search title="searchTag" />
         </label>
-        <input className={styles.searchInput} id={id} type="search" />
+        <input
+          name="q"
+          className={styles.searchInput}
+          id={id}
+          type="search"
+          placeholder="Search Rumblr"
+        />
       </Form>
     </search>
   );

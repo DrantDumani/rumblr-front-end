@@ -6,6 +6,7 @@ import {
   blogLoader,
   dashboardLoader,
   likesLoader,
+  searchLoader,
   settingsLoader,
   usersLoader,
 } from '../utils/loaders';
@@ -14,6 +15,7 @@ import { Settings } from '../pages/settings/Settings';
 import { Likes } from '../pages/likes/Likes';
 import { Blog } from '../pages/blog/Blog';
 import { Users } from '../pages/users/Users';
+import { Search } from '../pages/search/Search';
 
 export const routes = [
   {
@@ -44,6 +46,11 @@ export const routes = [
         path: '/users',
         element: <Users />,
         loader: usersLoader,
+      },
+      {
+        path: '/search',
+        element: <Search />,
+        loader: searchLoader,
       },
     ],
   },
