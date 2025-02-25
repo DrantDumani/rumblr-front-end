@@ -7,7 +7,6 @@ import Link_svg from '../../assets/icons/link_side_nav.svg?react';
 import Chat from '../../assets/icons/chat_side_nav.svg?react';
 import Audio from '../../assets/icons/audio_side_nav.svg?react';
 import Video from '../../assets/icons/video_side_nav.svg?react';
-import Messages from '../../assets/icons/messages_side_nav.svg?react';
 import Settings from '../../assets/icons/settings.svg?react';
 import Blog from '../../assets/icons/blog.svg?react';
 import Users from '../../assets/icons/users.svg?react';
@@ -122,12 +121,12 @@ export function SideNav({
         <li>
           <nav aria-label="sidebar">
             <ul>
-              <li className={styles.sideNav__item}>
+              {/* <li className={styles.sideNav__item}>
                 <Link className={styles.sideNavOption}>
                   <Messages aria-hidden="true" />
                   <span>Messages</span>
                 </Link>
-              </li>
+              </li> */}
               <li className={styles.sideNav__item}>
                 <Link
                   className={styles.sideNavOption}

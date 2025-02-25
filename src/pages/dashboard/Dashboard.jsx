@@ -9,6 +9,7 @@ import { PostForm } from '../../components/PostForm/PostForm';
 import { Outlet, ScrollRestoration } from 'react-router';
 import { useNavigation } from 'react-router';
 import { Loading } from '../../components/Loading/Loading';
+import { Footer } from '../../components/Footer/Footer';
 
 export function Dashboard() {
   const [showSideNav, setShowSideNav] = useState(false);
@@ -84,10 +85,12 @@ export function Dashboard() {
         >
           {navigation.state === 'loading' ? <Loading /> : <Outlet />}
         </main>
-        {/* <footer inert={showSideNav || postModal ? '' : null}>
-          Footer stuff but we made the post extra long so you could see stuff
-          when the menu is up
-        </footer> */}
+        <div
+          className={`${styles.footerWrapper}`}
+          inert={showSideNav || postModal ? '' : null}
+        >
+          <Footer />
+        </div>
       </div>
       {postModal && (
         <PostForm togglePostModal={togglePostModal} postModal={postModal} />
