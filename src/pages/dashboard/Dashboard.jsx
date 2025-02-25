@@ -7,10 +7,13 @@ import { SearchFrom } from '../../components/SearchForm/SearchForm';
 import { HeaderLinks } from '../../components/HeaderLinks/HeaderLinks';
 import { PostForm } from '../../components/PostForm/PostForm';
 import { Outlet, ScrollRestoration } from 'react-router';
+import { useNavigation } from 'react-router';
+import { Loading } from '../../components/Loading/Loading';
 
 export function Dashboard() {
   const [showSideNav, setShowSideNav] = useState(false);
   const [postModal, setPostModal] = useState('');
+  const navigation = useNavigation();
 
   const togglePostModal = (str) => setPostModal(str);
 
@@ -79,7 +82,7 @@ export function Dashboard() {
           className={styles.main}
           inert={showSideNav || postModal ? '' : null}
         >
-          <Outlet />
+          {navigation.state === 'loading' ? <Loading /> : <Outlet />}
         </main>
         {/* <footer inert={showSideNav || postModal ? '' : null}>
           Footer stuff but we made the post extra long so you could see stuff

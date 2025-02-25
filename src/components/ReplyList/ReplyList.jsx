@@ -7,19 +7,23 @@ import { handleData } from '../../utils/handleData';
 import { ReplyForm } from '../ReplyForm/ReplyForm';
 import { ConfirmDelete } from '../ConfirmDelete/ConfirmDelete';
 import { ModalBackdrop } from '../ModalBackdrop/ModalBackdrop';
+import { Loading } from '../Loading/Loading';
 
 export function ReplyList({ postAuthorId, postId, handleReplyNotes, userId }) {
   const [replies, setReplies] = useState([]);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [selectedReplyId, setSelectedReplyId] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchReplies = async () => {
+      setIsLoading(true);
       const resp = await handleData(`replies/${postId}`);
       if (resp.ok) {
         const data = await resp.json();
         setReplies(data);
       }
+      setIsLoading(false);
     };
 
     fetchReplies();
@@ -40,6 +44,9 @@ export function ReplyList({ postAuthorId, postId, handleReplyNotes, userId }) {
   };
 
   const deletReply = async (id) => {
+    if (isLoading) return;
+    toggleDeleteDialog();
+    setIsLoading(true);
     const resp = await handleData(`replies/${id}`, undefined, 'DELETE');
 
     if (resp.ok) {
@@ -48,45 +55,54 @@ export function ReplyList({ postAuthorId, postId, handleReplyNotes, userId }) {
       setReplies((prev) => prev.filter((r) => r.id !== data.deleted_id));
       handleReplyNotes(data.deleted_id, 'DELETE');
     }
-    toggleDeleteDialog();
-    // consider handling the waiting time while the user waits for the server to delete their post
-    // could also close the modal first and display a loading screen
+    setIsLoading(false);
   };
+
+  const toggleLoading = () => setIsLoading((bool) => !bool);
 
   return (
     <>
-      <ReplyForm postId={postId} onSubmitSucces={handleReplySuccess} />
+      <ReplyForm
+        postId={postId}
+        onSubmitSucces={handleReplySuccess}
+        isLoading={isLoading}
+        setLoader={toggleLoading}
+      />
       <div className={styles.replyList_Wrapper}>
-        {replies.map((reply) => (
-          <div key={reply.id} className={styles.reply}>
-            <div className={styles.reply__flex}>
-              <img
-                alt=""
-                src={reply.author.pfp || anon}
-                className={styles.reply__pfp}
-              />
-              <div className={styles.reply__textWrapper}>
-                <div className={styles.reply__header}>
-                  <p className={styles.reply__uname}>{reply.author.uname}</p>
-                  {postAuthorId === reply.author_id && (
-                    <p className={styles.reply__reminder}>Original Poster</p>
-                  )}
-                  {userId === reply.author_id && (
-                    <button
-                      onClick={() => {
-                        selectReply(reply.id);
-                      }}
-                      className={styles.reply__delBtn}
-                    >
-                      <Trash aria-label="Delete Reply" />
-                    </button>
-                  )}
+        {!isLoading ? (
+          replies.map((reply) => (
+            <div key={reply.id} className={styles.reply}>
+              <div className={styles.reply__flex}>
+                <img
+                  alt=""
+                  src={reply.author.pfp || anon}
+                  className={styles.reply__pfp}
+                />
+                <div className={styles.reply__textWrapper}>
+                  <div className={styles.reply__header}>
+                    <p className={styles.reply__uname}>{reply.author.uname}</p>
+                    {postAuthorId === reply.author_id && (
+                      <p className={styles.reply__reminder}>Original Poster</p>
+                    )}
+                    {userId === reply.author_id && (
+                      <button
+                        onClick={() => {
+                          selectReply(reply.id);
+                        }}
+                        className={styles.reply__delBtn}
+                      >
+                        <Trash aria-label="Delete Reply" />
+                      </button>
+                    )}
+                  </div>
+                  <p className={styles.reply__content}>{reply.content}</p>
                 </div>
-                <p className={styles.reply__content}>{reply.content}</p>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <Loading />
+        )}
       </div>
       {showDeleteDialog && (
         <>

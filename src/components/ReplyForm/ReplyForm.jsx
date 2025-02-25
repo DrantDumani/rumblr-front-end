@@ -6,7 +6,7 @@ import { jwtDecode } from 'jwt-decode';
 import anon from '../../assets/icons/incognito.svg';
 import { handleData } from '../../utils/handleData';
 
-export function ReplyForm({ postId, onSubmitSucces }) {
+export function ReplyForm({ postId, onSubmitSucces, isLoading, setLoader }) {
   const [reply, setReply] = useState('');
   const id = useId();
   const replyRef = useRef();
@@ -16,10 +16,10 @@ export function ReplyForm({ postId, onSubmitSucces }) {
   const validReply = reply.trim().length;
 
   const submitReply = async () => {
-    if (!validReply) return;
+    if (!validReply || isLoading) return;
 
+    setLoader();
     // disable form submission to prevent the user from accidentally submitting duplicate replies
-    // you may add a loading animation here in this component
 
     const resp = await handleData(
       `replies/${postId}`,
@@ -27,18 +27,14 @@ export function ReplyForm({ postId, onSubmitSucces }) {
       'POST'
     );
     if (resp.ok) {
-      // we don't need to render anything here. Just clear the reply state
       setReply('');
       const data = await resp.json();
 
       onSubmitSucces(data.reply);
-      // you should also close the reply form when the reply is successful. Can't be done from here tho
-      // you can also confirm that the reply was sent. You can do this by opening the list of replies,
-      // which can be handled later
-      // WRONG. DON'T CLOSE SHIT. JUST UPDATE THE LIST OF REPLIES
     } else {
       // let the user know that the reply did not go through
     }
+    setLoader();
   };
 
   const handleEnterKey = (e) => {
@@ -92,4 +88,6 @@ export function ReplyForm({ postId, onSubmitSucces }) {
 ReplyForm.propTypes = {
   postId: PropTypes.number,
   onSubmitSucces: PropTypes.func,
+  isLoading: PropTypes.bool,
+  setLoader: PropTypes.func,
 };
