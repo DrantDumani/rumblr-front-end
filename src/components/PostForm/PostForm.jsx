@@ -13,6 +13,7 @@ import { DeleteMediaBtn } from '../DeleteMediaBtn/DeleteMediaBtn';
 import { FormMediaWarning } from '../FormMediaWarning/FormMediaWarning';
 import { handleData } from '../../utils/handleData';
 import { PostMenu } from '../PostMenu/PostMenu';
+import { Loading } from '../Loading/Loading';
 
 export function PostForm({
   togglePostModal,
@@ -31,6 +32,7 @@ export function PostForm({
 
   // state for media toggling
   const [media, setMedia] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const contentInputId = useId();
   const textRef = useRef(null);
   const fileLimit = 2097152;
@@ -58,6 +60,9 @@ export function PostForm({
     e.preventDefault();
 
     if (fileLimitExceeded) return;
+
+    // toggle loading animation
+    setIsLoading(true);
 
     // maybe toggle a loading screen while sending the post
     const checkTagDupes = {};
@@ -128,6 +133,7 @@ export function PostForm({
     }
     const respData = await resp.json();
     editUpdater(respData);
+    setIsLoading(false);
     togglePostModal('');
   };
 
@@ -284,6 +290,7 @@ export function PostForm({
               <textarea
                 defaultValue={reqType.type === 'edit' ? prevValue : ''}
                 ref={textRef}
+                // do not change placeholder formatting
                 placeholder="Mario: Nice of the princess to invite us over for a picnic, ay Luigi?
 
 Luigi: I hope she makes lotsa spaghetti!"
@@ -372,6 +379,11 @@ Luigi: I hope she makes lotsa spaghetti!"
             </button>
           )}
         </div>
+        {isLoading && (
+          <div className={styles.postForm__loader}>
+            <Loading />
+          </div>
+        )}
         <div className={styles.postForm__btnWrapper}>
           <button
             onClick={() => togglePostModal('')}
