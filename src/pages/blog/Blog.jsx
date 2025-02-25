@@ -23,19 +23,19 @@ export function Blog() {
   }, [postData.posts]);
 
   useEffect(() => {
-    // repeated line to prevent dependency issues
-    const userId = jwtDecode(localStorage.getItem('token')).id;
-
     const observer = new IntersectionObserver(async (entries, observer) => {
       const entry = entries[0];
       if (entry.isIntersecting) {
         observer.disconnect();
         setIsLoading(true);
         const cursor = posts[posts.length - 1].id;
-        const resp = await handleData(`posts/user/${userId}?cursor=${cursor}`);
+        const resp = await handleData(
+          `posts/user/${userData.id}?cursor=${cursor}`
+        );
 
         if (resp.ok) {
           const { posts } = await resp.json();
+          console.log(posts);
           if (posts.length) {
             setPosts((prev) => {
               if (prev.length >= 100) {
@@ -50,7 +50,7 @@ export function Blog() {
     anchorRef.current && observer.observe(anchorRef.current);
 
     return () => observer.disconnect();
-  }, [posts]);
+  }, [posts, userData.id]);
 
   return (
     <>
