@@ -100,6 +100,7 @@ export const Post = forwardRef(function Post(
             <img
               src={post.author.pfp || anon}
               className={styles.post__author_pfp}
+              alt=""
             />
             {post.previous ? (
               <>
@@ -265,21 +266,21 @@ export const Post = forwardRef(function Post(
                 <Share aria-label="Perma-link" />
               </Link>
               <button onClick={toggleReplies} className={styles.post__svgBtn}>
-                <Reply />
+                <Reply aria-label="Reply" />
               </button>
               <button
                 aria-label="Reblog post"
                 onClick={reblogForm}
                 className={`${styles.post__svgBtn}`}
               >
-                <Reblog />
+                <Reblog aria-label="Reblog" />
               </button>
               <button
                 onClick={() => handleLike(post.id)}
                 aria-label="Like Post"
                 className={`${styles.post__svgBtn} ${post.selfLiked.length ? styles['post__svgBtn--like'] : ''}`}
               >
-                <Like />
+                <Like aria-label="Like post" />
               </button>
             </div>
           </div>

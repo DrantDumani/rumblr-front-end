@@ -23,7 +23,7 @@ export function DashNav({ showNav }) {
   return (
     <div className={styles.topBar}>
       <button onClick={showNav} className={styles.menuBtn}>
-        <Hamburger />
+        <Hamburger aria-label="open menu" />
       </button>
 
       <Link onClick={resetDash} to={'/'} className={styles.logoLink}>

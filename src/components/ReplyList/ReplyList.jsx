@@ -9,6 +9,7 @@ import { ConfirmDelete } from '../ConfirmDelete/ConfirmDelete';
 import { ModalBackdrop } from '../ModalBackdrop/ModalBackdrop';
 import { Loading } from '../Loading/Loading';
 import { EmptyNotif } from '../EmptyNotif/EmptyNotif';
+import { Link } from 'react-router';
 
 export function ReplyList({ postAuthorId, postId, handleReplyNotes, userId }) {
   const [replies, setReplies] = useState([]);
@@ -75,11 +76,13 @@ export function ReplyList({ postAuthorId, postId, handleReplyNotes, userId }) {
             replies.map((reply) => (
               <div key={reply.id} className={styles.reply}>
                 <div className={styles.reply__flex}>
-                  <img
-                    alt=""
-                    src={reply.author.pfp || anon}
-                    className={styles.reply__pfp}
-                  />
+                  <Link to={`/blog/${reply.author_id}`}>
+                    <img
+                      alt={`${reply.author.uname}'s blog`}
+                      src={reply.author.pfp || anon}
+                      className={styles.reply__pfp}
+                    />
+                  </Link>
                   <div className={styles.reply__textWrapper}>
                     <div className={styles.reply__header}>
                       <p className={styles.reply__uname}>
