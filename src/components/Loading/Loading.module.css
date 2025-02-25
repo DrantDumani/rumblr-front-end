@@ -1,5 +1,5 @@
 .loadingWrapper {
-  background-color: var(--bg-color);
+  background-color: inherit;
   display: flex;
   gap: 1rem;
   justify-content: center;
