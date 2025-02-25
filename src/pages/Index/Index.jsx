@@ -10,6 +10,10 @@ export function Index() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setPosts[postData];
+  }, [postData]);
+
+  useEffect(() => {
     const observer = new IntersectionObserver(async (entries, observer) => {
       const entry = entries[0];
       if (entry.isIntersecting) {
