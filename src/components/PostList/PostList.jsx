@@ -3,6 +3,7 @@ import { forwardRef } from 'react';
 import { Post } from '../Post/Post';
 import PropTypes from 'prop-types';
 import { Loading } from '../Loading/Loading';
+import { EmptyNotif } from '../EmptyNotif/EmptyNotif';
 
 export const PostList = forwardRef(function PostList(
   { posts, setPosts, isLoading },
@@ -71,17 +72,23 @@ export const PostList = forwardRef(function PostList(
   return (
     <>
       <div className={styles.postListWrapper}>
-        {posts.map((post, i, arr) => (
-          <Post
-            ref={arr.length >= 10 && i === arr.length - 2 ? anchorRef : null}
-            key={post.id}
-            post={post}
-            editUpdater={updateEditedPost}
-            deleteUpdater={deletePost}
-            likesUpdater={togglePostLike}
-            handleReplyNotes={handleReplyNotes}
-          />
-        ))}
+        {posts.length ? (
+          posts.map((post, i, arr) => (
+            <Post
+              ref={arr.length >= 10 && i === arr.length - 2 ? anchorRef : null}
+              key={post.id}
+              post={post}
+              editUpdater={updateEditedPost}
+              deleteUpdater={deletePost}
+              likesUpdater={togglePostLike}
+              handleReplyNotes={handleReplyNotes}
+            />
+          ))
+        ) : (
+          <div className={styles.emptyPostWrapper}>
+            <EmptyNotif reminderText={'There are no posts here'} />
+          </div>
+        )}
       </div>
       {isLoading && <Loading />}
     </>

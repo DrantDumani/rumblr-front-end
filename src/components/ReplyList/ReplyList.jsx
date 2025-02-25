@@ -8,6 +8,7 @@ import { ReplyForm } from '../ReplyForm/ReplyForm';
 import { ConfirmDelete } from '../ConfirmDelete/ConfirmDelete';
 import { ModalBackdrop } from '../ModalBackdrop/ModalBackdrop';
 import { Loading } from '../Loading/Loading';
+import { EmptyNotif } from '../EmptyNotif/EmptyNotif';
 
 export function ReplyList({ postAuthorId, postId, handleReplyNotes, userId }) {
   const [replies, setReplies] = useState([]);
@@ -70,36 +71,46 @@ export function ReplyList({ postAuthorId, postId, handleReplyNotes, userId }) {
       />
       <div className={styles.replyList_Wrapper}>
         {!isLoading ? (
-          replies.map((reply) => (
-            <div key={reply.id} className={styles.reply}>
-              <div className={styles.reply__flex}>
-                <img
-                  alt=""
-                  src={reply.author.pfp || anon}
-                  className={styles.reply__pfp}
-                />
-                <div className={styles.reply__textWrapper}>
-                  <div className={styles.reply__header}>
-                    <p className={styles.reply__uname}>{reply.author.uname}</p>
-                    {postAuthorId === reply.author_id && (
-                      <p className={styles.reply__reminder}>Original Poster</p>
-                    )}
-                    {userId === reply.author_id && (
-                      <button
-                        onClick={() => {
-                          selectReply(reply.id);
-                        }}
-                        className={styles.reply__delBtn}
-                      >
-                        <Trash aria-label="Delete Reply" />
-                      </button>
-                    )}
+          replies.length ? (
+            replies.map((reply) => (
+              <div key={reply.id} className={styles.reply}>
+                <div className={styles.reply__flex}>
+                  <img
+                    alt=""
+                    src={reply.author.pfp || anon}
+                    className={styles.reply__pfp}
+                  />
+                  <div className={styles.reply__textWrapper}>
+                    <div className={styles.reply__header}>
+                      <p className={styles.reply__uname}>
+                        {reply.author.uname}
+                      </p>
+                      {postAuthorId === reply.author_id && (
+                        <p className={styles.reply__reminder}>
+                          Original Poster
+                        </p>
+                      )}
+                      {userId === reply.author_id && (
+                        <button
+                          onClick={() => {
+                            selectReply(reply.id);
+                          }}
+                          className={styles.reply__delBtn}
+                        >
+                          <Trash aria-label="Delete Reply" />
+                        </button>
+                      )}
+                    </div>
+                    <p className={styles.reply__content}>{reply.content}</p>
                   </div>
-                  <p className={styles.reply__content}>{reply.content}</p>
                 </div>
               </div>
-            </div>
-          ))
+            ))
+          ) : (
+            <EmptyNotif
+              reminderText={'This post has no replies. Be the first!'}
+            />
+          )
         ) : (
           <Loading />
         )}
