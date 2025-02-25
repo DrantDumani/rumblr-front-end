@@ -9,7 +9,7 @@ export function Auth() {
 
   return (
     <>
-      <header>
+      <header className={styles.authHeader}>
         <h1 className={styles.titleLogo}>Rumblr</h1>
       </header>
       <main className={styles.authMain}>
@@ -43,6 +43,7 @@ export function Auth() {
           </div>
         )}
       </main>
+
       <Footer />
     </>
   );
