@@ -1,7 +1,7 @@
 const apiStr =
   import.meta.env.MODE === 'development'
     ? 'http://localhost:3000/'
-    : 'https://rumblr-wq0d.onrender.com';
+    : 'https://rumblr-wq0d.onrender.com/';
 
 export const handleData = async (
   endPoint,
