@@ -78,6 +78,7 @@ export function ReplyList({ postAuthorId, postId, handleReplyNotes, userId }) {
                 <div className={styles.reply__flex}>
                   <Link to={`/blog/${reply.author_id}`}>
                     <img
+                      loading="lazy"
                       alt={`${reply.author.uname}'s blog`}
                       src={reply.author.pfp || anon}
                       className={styles.reply__pfp}

@@ -55,7 +55,12 @@ export function ReplyForm({ postId, onSubmitSucces, isLoading, setLoader }) {
       <div className={styles['form__wrapper--relative']}>
         <pre className={styles.form__span}>{reply}</pre>
         <div className={styles.form__flex}>
-          <img className={styles.form__pfp} alt="" src={user.pfp || anon} />
+          <img
+            loading="lazy"
+            className={styles.form__pfp}
+            alt=""
+            src={user.pfp || anon}
+          />
           <div className={styles.form__inputWrapper}>
             <div className={styles.form__innerWrapper}>
               <label className={styles.form__label} htmlFor={id}>

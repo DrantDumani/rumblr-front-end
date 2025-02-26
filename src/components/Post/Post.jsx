@@ -98,6 +98,7 @@ export const Post = forwardRef(function Post(
             className={styles.post__blogLink}
           >
             <img
+              loading="lazy"
               src={post.author.pfp || anon}
               className={styles.post__author_pfp}
               alt=""
@@ -129,6 +130,7 @@ export const Post = forwardRef(function Post(
             )) ||
             (post.segments[0].post_type === 'photo' && (
               <img
+                loading="lazy"
                 className={styles.post__img}
                 src={post.segments[0].content}
                 alt=""
@@ -169,6 +171,7 @@ export const Post = forwardRef(function Post(
                     className={styles.post__blogLink}
                   >
                     <img
+                      loading="lazy"
                       src={segment.author.pfp || anon}
                       className={styles.post__author_pfp}
                     />
@@ -185,6 +188,7 @@ export const Post = forwardRef(function Post(
                 )}
                 {segment.post_type === 'photo' && (
                   <img
+                    loading="lazy"
                     className={styles.post__img}
                     src={segment.content}
                     alt=""

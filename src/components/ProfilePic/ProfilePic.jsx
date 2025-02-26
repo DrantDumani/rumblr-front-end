@@ -5,7 +5,12 @@ import anon from '../../assets/icons/incognito.svg';
 export function ProfilePic({ children, imgSrc }) {
   return (
     <div className={styles.imgWrapper}>
-      <img className={styles.imgWrapper__pfp} src={imgSrc || anon} alt="" />
+      <img
+        loading="lazy"
+        className={styles.imgWrapper__pfp}
+        src={imgSrc || anon}
+        alt=""
+      />
       {children}
     </div>
   );

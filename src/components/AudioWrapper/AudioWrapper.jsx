@@ -40,7 +40,7 @@ export function AudioWrapper({ audioURL = '', audioFile = null }) {
           <p className={styles.metadata__text}>{dataObj.album || 'Unknown'}</p>
         </div>
         <div className={styles.metadata__imgWrapper}>
-          <img src={dataObj.picture || musicNote} alt="" />
+          <img loading="lazy" src={dataObj.picture || musicNote} alt="" />
         </div>
       </div>
     </div>

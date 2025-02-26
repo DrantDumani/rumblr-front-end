@@ -6,6 +6,7 @@ export function HeaderImgWrapper({ imgSrc, children }) {
   return (
     <div className={styles.imgWrapper}>
       <img
+        loading="lazy"
         className={styles.imgWrapper__img}
         src={imgSrc || def_header}
         alt=""
