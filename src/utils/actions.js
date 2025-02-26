@@ -26,5 +26,14 @@ export async function authAction({ request }) {
     } else if (resp.status === 401) {
       return 'Invalid Credentials';
     } else throw new Response('Error completing request');
+  } else if (intent === 'guest') {
+    const credentials = { email: 'guest@guest.com', pw: '123' };
+    const resp = await handleData('users/auth', credentials, 'POST');
+
+    if (resp.ok) {
+      const data = await resp.json();
+      localStorage.setItem('token', data.token);
+      return redirect('/');
+    } else throw new Response('Error completing request');
   }
 }

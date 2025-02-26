@@ -5,23 +5,43 @@ import { Loading } from '../../components/Loading/Loading';
 
 export function AuthForm({ children, btnText, intent }) {
   const fetcher = useFetcher();
+  const guestFetcher = useFetcher();
   const err = fetcher.data;
 
   return (
     <>
-      <fetcher.Form className={styles.authForm} method="POST">
-        {children}
-        <button
-          className={styles.authSubmit}
-          name="intent"
-          value={intent}
-          disabled={fetcher.state === 'submitting'}
-        >
-          {btnText}
-        </button>
+      <div className={styles.authFormWrapper}>
+        <fetcher.Form className={styles.authForm} method="POST">
+          {children}
+          <button
+            className={styles.authSubmit}
+            name="intent"
+            value={intent}
+            disabled={
+              fetcher.state === 'submitting' ||
+              guestFetcher.state === 'submitting'
+            }
+          >
+            {btnText}
+          </button>
+        </fetcher.Form>
+        <guestFetcher.Form method="POST">
+          <button
+            name="intent"
+            value="guest"
+            className={styles.authSubmit}
+            disabled={
+              fetcher.state === 'submitting' ||
+              guestFetcher.state === 'submitting'
+            }
+          >
+            Log In as Guest
+          </button>
+        </guestFetcher.Form>
         {err && <p>{err}</p>}
-      </fetcher.Form>
-      {fetcher.state === 'submitting' && <Loading />}
+      </div>
+      {(fetcher.state === 'submitting' ||
+        guestFetcher.state === 'submitting') && <Loading />}
     </>
   );
 }
