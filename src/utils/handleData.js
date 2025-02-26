@@ -1,7 +1,7 @@
 const apiStr =
   import.meta.env.MODE === 'development'
     ? 'http://localhost:3000/'
-    : 'INSERT PRODUCTION DB HERE';
+    : 'https://rumblr-wq0d.onrender.com';
 
 export const handleData = async (
   endPoint,
