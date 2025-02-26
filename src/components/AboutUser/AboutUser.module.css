@@ -1,0 +1,15 @@
+.textWrapper {
+  transform: translateY(-35px);
+  padding: 1rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.textWrapper__text {
+  font-size: 1rem;
+  font-family: inherit;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}

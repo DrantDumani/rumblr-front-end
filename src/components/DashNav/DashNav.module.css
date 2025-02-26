@@ -1,0 +1,57 @@
+.topBar {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+
+@media (min-width: 768px) {
+  .topBar {
+    gap: 0;
+    justify-content: space-between;
+  }
+}
+
+.menuBtn {
+  border: none;
+  background-color: inherit;
+  cursor: pointer;
+
+  svg {
+    width: 33px;
+    height: auto;
+  }
+}
+
+@media (min-width: 1280px) {
+  .menuBtn {
+    display: none;
+  }
+}
+
+.logoLink {
+  font-family: SixtyFour, 'Franklin Gothic Medium', 'Arial Narrow', Arial,
+    sans-serif;
+  font-size: 1.8rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.searchWrapper--noMobile {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .searchWrapper--noMobile {
+    display: block;
+  }
+}
+
+.topBar__nav {
+  display: none;
+}
+
+@media (min-width: 1280px) {
+  .topBar__nav {
+    display: block;
+  }
+}

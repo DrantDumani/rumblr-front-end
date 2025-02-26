@@ -1,0 +1,27 @@
+.postListWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .postListWrapper {
+    padding-left: 1rem;
+    align-items: center;
+  }
+}
+
+@media (min-width: 1280px) {
+  .postListWrapper {
+    align-items: flex-start;
+  }
+}
+
+.emptyPostWrapper {
+  width: var(--max-main-width);
+  max-width: 100%;
+  border-radius: 12px;
+  background-color: #cce7ff;
+}

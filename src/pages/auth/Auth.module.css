@@ -1,0 +1,43 @@
+.authHeader {
+  padding-top: 2rem;
+}
+
+.authHeader,
+.authMain {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.titleLogo {
+  font-family: SixtyFour, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+}
+
+.authMain {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.formToggle {
+  text-align: center;
+}
+
+.toggleBtn {
+  border: none;
+  background-color: inherit;
+  color: #9ff7ff;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: underline;
+  font-weight: 600;
+  &:hover {
+    text-shadow: 0px 0px 5px #9ff7ff;
+  }
+}
+
+.loadingWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}

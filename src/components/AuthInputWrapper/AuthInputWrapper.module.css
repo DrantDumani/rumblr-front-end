@@ -1,0 +1,39 @@
+.inputWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 15rem;
+  height: 3.4375rem;
+}
+
+.label {
+  position: absolute;
+  padding: 0.4rem;
+  color: #e1e0e0;
+  z-index: 2;
+  user-select: none;
+}
+
+.input {
+  background-color: #a791ff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.45rem;
+  width: 100%;
+  z-index: 1;
+  position: relative;
+  color: inherit;
+  font-family: inherit;
+  font-size: 1rem;
+
+  &:not(:placeholder-shown) {
+    z-index: 3;
+  }
+}
+
+.authError {
+  font-style: italic;
+  font-weight: 600;
+  color: #ffb4b4;
+  padding-top: 0.2rem;
+  font-size: 0.875rem;
+}

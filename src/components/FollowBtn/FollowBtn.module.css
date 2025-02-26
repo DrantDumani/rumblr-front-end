@@ -1,0 +1,23 @@
+.btnContainer {
+  text-align: center;
+  margin-bottom: 0;
+  margin-top: auto;
+}
+
+.btnContainer--top {
+  transform: translateY(-35px);
+  margin-top: 0;
+  margin-bottom: auto;
+}
+
+.followBtn {
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 1rem;
+  border-radius: 1rem;
+  padding: 0.5rem;
+  border: none;
+  background-color: #529ecc;
+  color: #f6f6f6;
+  cursor: pointer;
+}

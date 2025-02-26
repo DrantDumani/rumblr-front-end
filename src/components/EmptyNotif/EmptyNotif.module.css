@@ -1,0 +1,10 @@
+.notifWrapper {
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text {
+  color: #424242;
+}

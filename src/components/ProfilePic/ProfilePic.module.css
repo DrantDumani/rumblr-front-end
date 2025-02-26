@@ -1,0 +1,16 @@
+.imgWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  top: -50px;
+}
+
+.imgWrapper__pfp {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  background-color: #fff;
+  border: 2.5px solid #fff;
+  border-radius: 4px;
+}

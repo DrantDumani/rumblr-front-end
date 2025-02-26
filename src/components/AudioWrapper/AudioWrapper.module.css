@@ -1,0 +1,35 @@
+.audioWrapper {
+  display: flex;
+  flex-direction: column;
+
+  & audio {
+    width: 100%;
+  }
+}
+
+.metadata {
+  display: flex;
+  background-color: #7c5cff;
+}
+
+.metadata__textWrapper {
+  padding: 0.5rem 1rem;
+  flex-basis: 85%;
+  flex-shrink: 0;
+  font-style: italic;
+  font-size: 0.875rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  text-decoration: underline;
+}
+
+.metadata__imgWrapper {
+  flex-basis: 15%;
+  flex-grow: 0;
+
+  & img {
+    width: 100%;
+    height: 100%;
+  }
+}

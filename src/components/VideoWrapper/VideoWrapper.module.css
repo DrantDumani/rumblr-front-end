@@ -1,0 +1,11 @@
+.video {
+  width: 100%;
+  background-color: #000;
+}
+
+@media (min-width: 768px) {
+  .video {
+    max-height: 300px;
+    object-fit: contain;
+  }
+}
