@@ -174,6 +174,7 @@ export const Post = forwardRef(function Post(
                       loading="lazy"
                       src={segment.author.pfp || anon}
                       className={styles.post__author_pfp}
+                      alt=""
                     />
                     <span className={styles.post__authorName}>
                       {segment.author.uname}
