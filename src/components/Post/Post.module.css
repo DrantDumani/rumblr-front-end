@@ -180,14 +180,6 @@
   }
 }
 
-.post__footer {
-  /* display: flex;
-  justify-content: space-between;
-  padding-right: var(--post-padding);
-  padding-left: var(--post-padding);
-  padding-bottom: 1rem; */
-}
-
 .footer__btnBar {
   display: flex;
   justify-content: space-between;
