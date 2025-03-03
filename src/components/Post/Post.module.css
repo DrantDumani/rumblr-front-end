@@ -33,7 +33,7 @@
 .post__author_pfp {
   width: 2rem;
   height: 2rem;
-  object-fit: contain;
+  object-fit: cover;
   border-radius: 4px;
 }
 

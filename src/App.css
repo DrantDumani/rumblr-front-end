@@ -68,7 +68,7 @@ body {
   --reply-pfp-width: 32px;
   --reply-pfp-height: 32px;
   --reply-pfp-radius: 50%;
-  --reply-pfp-fit: contain;
+  --reply-pfp-fit: cover;
 }
 
 body {
