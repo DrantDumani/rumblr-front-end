@@ -17,6 +17,8 @@ import { ConfirmDelete } from '../ConfirmDelete/ConfirmDelete';
 import { handleData } from '../../utils/handleData';
 import { Link } from 'react-router';
 import { ReplyList } from '../ReplyList/ReplyList';
+import { NotesDisplayBar } from '../NotesDisplayBar/NotesDisplayBar';
+import { LikeList } from '../LikeList/LikeList';
 
 export const Post = forwardRef(function Post(
   {
@@ -32,17 +34,23 @@ export const Post = forwardRef(function Post(
   const [displayDeleteForm, setDisplayDeleteForm] = useState(false);
   const [reqType, setReqType] = useState({ type: '', postId: 0 });
   const [throttle, setThrottle] = useState(false);
-  const [showReplies, setShowReplies] = useState(false);
+  const [showReplies, setShowReplies] = useState('');
 
-  const notes = post.parent
-    ? post.parent._count.usersLiked +
-      post.parent._count.children +
-      post.parent._count.replies
-    : post._count.usersLiked + post._count.children + post._count.replies;
+  const replyCount = post.parent
+    ? post.parent._count.replies
+    : post._count.replies;
+  const reblogCount = post.parent
+    ? post.parent._count.children
+    : post._count.children;
+  const likeCount = post.parent
+    ? post.parent._count.usersLiked
+    : post._count.usersLiked;
+
+  const notes = replyCount + reblogCount + likeCount;
 
   const userInfo = jwtDecode(localStorage.getItem('token'));
 
-  const toggleReplies = () => setShowReplies((bool) => !bool);
+  const toggleReplies = (str) => setShowReplies(str);
 
   const toggleDisplayDelete = () => {
     setDisplayDeleteForm((prev) => !prev);
@@ -252,7 +260,11 @@ export const Post = forwardRef(function Post(
         <footer className={styles.post__footer}>
           <div className={styles.footer__btnBar}>
             <button
-              onClick={toggleReplies}
+              onClick={
+                showReplies
+                  ? () => toggleReplies('')
+                  : () => toggleReplies('reply')
+              }
               className={`${styles.post__notesBtn} ${showReplies ? styles['post__notesBtn--close'] : ''}`}
             >
               <span className={styles.post__notesNum}>
@@ -270,7 +282,10 @@ export const Post = forwardRef(function Post(
               <Link to={`/post/${post.id}`} className={styles.post__svgBtn}>
                 <Share aria-label="Perma-link" />
               </Link>
-              <button onClick={toggleReplies} className={styles.post__svgBtn}>
+              <button
+                onClick={() => toggleReplies('reply')}
+                className={styles.post__svgBtn}
+              >
                 <Reply aria-label="Reply" />
               </button>
               <button
@@ -290,12 +305,24 @@ export const Post = forwardRef(function Post(
             </div>
           </div>
           {showReplies && (
+            <NotesDisplayBar
+              currDisplay={showReplies}
+              replyCount={replyCount}
+              reblogCount={reblogCount}
+              likeCount={likeCount}
+              toggleDisplay={toggleReplies}
+            />
+          )}
+          {showReplies === 'reply' && (
             <ReplyList
               postAuthorId={post.parent?.author_id || post.author_id}
               postId={post.parent_id || post.id}
               handleReplyNotes={handleReplyNotes}
               userId={Number(userInfo.id)}
             />
+          )}
+          {showReplies === 'like' && (
+            <LikeList postId={post.parent_id || post.id} />
           )}
         </footer>
       </article>

@@ -1,0 +1,23 @@
+.likesWrapper {
+  composes: postNotesList from '../../App.css';
+}
+
+.like {
+  composes: postNotesList__item from '../../App.css';
+  align-items: center;
+  text-decoration: none;
+}
+
+.like__pfp {
+  composes: postNotesList__pfp from '../../App.css';
+}
+
+.like__textLink {
+  text-decoration: none;
+  color: #000;
+}
+
+.like__uname {
+  font-weight: 500;
+  font-size: 0.875rem;
+}
