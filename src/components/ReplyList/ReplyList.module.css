@@ -1,25 +1,13 @@
 .replyList_Wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  padding: 1rem;
-  border-top: 1px solid var(--post-section-border);
-  max-height: 200px;
-  overflow-y: scroll;
-  scrollbar-width: thin;
+  composes: postNotesList from '../../App.css';
 }
 
 .reply__flex {
-  display: flex;
-  gap: 0.5rem;
-  color: #000;
+  composes: postNotesList__item from '../../App.css';
 }
 
 .reply__pfp {
-  border-radius: var(--reply-pfp-radius);
-  width: var(--reply-pfp-width);
-  height: var(--reply-pfp-height);
-  object-fit: var(--reply-pfp-fit);
+  composes: postNotesList__pfp from '../../App.css';
 }
 
 .reply__textWrapper {
