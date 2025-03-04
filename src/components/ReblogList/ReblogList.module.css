@@ -1,0 +1,41 @@
+.reblogListWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem;
+  border-top: 1px solid var(--post-section-border);
+  max-height: 200px;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+}
+
+.reblog {
+  display: flex;
+  gap: 0.5rem;
+  color: #000;
+  align-items: center;
+  text-decoration: none;
+}
+
+.reblog__pfp {
+  border-radius: var(--reply-pfp-radius);
+  width: var(--reply-pfp-width);
+  height: var(--reply-pfp-height);
+  object-fit: var(--reply-pfp-fit);
+}
+
+.reblog__textWrapper {
+  display: flex;
+  gap: 0.3rem;
+  font-size: 0.875rem;
+  svg {
+    width: 1rem;
+    height: auto;
+  }
+}
+
+.reblog__textLink {
+  text-decoration: none;
+  color: inherit;
+  font-weight: 500;
+}

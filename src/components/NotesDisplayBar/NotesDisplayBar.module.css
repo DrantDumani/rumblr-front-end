@@ -1,0 +1,62 @@
+.menuBar {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1rem;
+  border-top: 1px solid var(--post-section-border);
+}
+
+.menuBar__btn {
+  background-color: inherit;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 500;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 1rem;
+
+  & svg {
+    width: 1.5rem;
+    height: auto;
+  }
+}
+
+.menuBar__btn--active_like,
+.menuBar__btn--active_reblog,
+.menuBar__btn--active_reply {
+  color: #fff;
+}
+
+.menuBar__btn--active_reply {
+  background-color: #00b8ff;
+
+  & svg {
+    & path {
+      stroke: #fff;
+    }
+  }
+}
+
+.menuBar__btn--active_reblog {
+  background-color: #00cf35;
+
+  & svg {
+    & path {
+      fill: #fff;
+    }
+  }
+}
+
+.menuBar__btn--active_like {
+  background-color: #ff4930;
+
+  & svg {
+    & path {
+      stroke: #fff;
+      fill: #ff4930;
+    }
+  }
+}

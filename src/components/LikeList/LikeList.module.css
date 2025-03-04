@@ -1,0 +1,35 @@
+.likesWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem;
+  border-top: 1px solid var(--post-section-border);
+  max-height: 200px;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+}
+
+.like {
+  display: flex;
+  gap: 0.5rem;
+  color: #000;
+  align-items: center;
+  text-decoration: none;
+}
+
+.like__pfp {
+  border-radius: var(--reply-pfp-radius);
+  width: var(--reply-pfp-width);
+  height: var(--reply-pfp-height);
+  object-fit: var(--reply-pfp-fit);
+}
+
+.like__textLink {
+  text-decoration: none;
+  color: #000;
+}
+
+.like__uname {
+  font-weight: 500;
+  font-size: 0.875rem;
+}

@@ -33,7 +33,7 @@
 .post__author_pfp {
   width: 2rem;
   height: 2rem;
-  object-fit: contain;
+  object-fit: cover;
   border-radius: 4px;
 }
 
@@ -178,14 +178,6 @@
   & path {
     fill: #f00;
   }
-}
-
-.post__footer {
-  /* display: flex;
-  justify-content: space-between;
-  padding-right: var(--post-padding);
-  padding-left: var(--post-padding);
-  padding-bottom: 1rem; */
 }
 
 .footer__btnBar {
