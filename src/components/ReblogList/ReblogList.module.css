@@ -1,4 +1,4 @@
-.likesWrapper {
+.reblogListWrapper {
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -9,7 +9,7 @@
   scrollbar-width: thin;
 }
 
-.like {
+.reblog {
   display: flex;
   gap: 0.5rem;
   color: #000;
@@ -17,19 +17,25 @@
   text-decoration: none;
 }
 
-.like__pfp {
+.reblog__pfp {
   border-radius: var(--reply-pfp-radius);
   width: var(--reply-pfp-width);
   height: var(--reply-pfp-height);
   object-fit: var(--reply-pfp-fit);
 }
 
-.like__textLink {
-  text-decoration: none;
-  color: #000;
+.reblog__textWrapper {
+  display: flex;
+  gap: 0.3rem;
+  font-size: 0.875rem;
+  svg {
+    width: 1rem;
+    height: auto;
+  }
 }
 
-.like__uname {
+.reblog__textLink {
+  text-decoration: none;
+  color: inherit;
   font-weight: 500;
-  font-size: 0.875rem;
 }

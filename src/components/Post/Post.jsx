@@ -19,6 +19,7 @@ import { Link } from 'react-router';
 import { ReplyList } from '../ReplyList/ReplyList';
 import { NotesDisplayBar } from '../NotesDisplayBar/NotesDisplayBar';
 import { LikeList } from '../LikeList/LikeList';
+import { ReblogList } from '../ReblogList/ReblogList';
 
 export const Post = forwardRef(function Post(
   {
@@ -320,6 +321,9 @@ export const Post = forwardRef(function Post(
               handleReplyNotes={handleReplyNotes}
               userId={Number(userInfo.id)}
             />
+          )}
+          {showReplies === 'reblog' && (
+            <ReblogList postId={post.parent_id || post.id} />
           )}
           {showReplies === 'like' && (
             <LikeList postId={post.parent_id || post.id} />

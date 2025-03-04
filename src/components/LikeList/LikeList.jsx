@@ -7,25 +7,6 @@ import { Link } from 'react-router';
 import { handleData } from '../../utils/handleData';
 import PropTypes from 'prop-types';
 
-const likes = [
-  {
-    id: 101,
-    user: {
-      pfp: 'https://res.cloudinary.com/almagorge/image/upload/v1740029471/wuln8n4vp5gohxjdlitt.png',
-      uname: 'Half Genie Hero',
-      id: 231,
-    },
-  },
-  {
-    id: 99,
-    user: {
-      pfp: null,
-      uname: 'testman',
-      id: 233,
-    },
-  },
-];
-
 export function LikeList({ postId }) {
   const [isLoading, setIsLoading] = useState(false);
   const [likes, setLikes] = useState([]);
