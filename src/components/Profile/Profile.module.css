@@ -1,7 +1,11 @@
+.profileWrapper {
+  display: flex;
+  justify-content: center;
+}
+
 @media (min-width: 768px) {
   .profileWrapper {
     display: flex;
-    justify-content: center;
     margin-left: var(--mobile-pad);
   }
 }
