@@ -9,7 +9,9 @@ export function SearchFrom() {
   const searchRef = useRef(null);
 
   useEffect(() => {
-    searchRef.current.value = decodeURI(search).slice(2).replaceAll('+', ' ');
+    searchRef.current.value = decodeURIComponent(search)
+      .slice(2)
+      .replaceAll('+', ' ');
   }, [search]);
   return (
     <search>
@@ -28,6 +30,7 @@ export function SearchFrom() {
           id={id}
           type="search"
           placeholder="Search Rumblr"
+          maxLength={140}
         />
       </Form>
     </search>

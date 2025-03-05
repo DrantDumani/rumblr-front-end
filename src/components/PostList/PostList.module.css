@@ -4,12 +4,12 @@
   gap: 0.8rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
+  align-items: center;
 }
 
 @media (min-width: 768px) {
   .postListWrapper {
     padding-left: 1rem;
-    align-items: center;
   }
 }
 

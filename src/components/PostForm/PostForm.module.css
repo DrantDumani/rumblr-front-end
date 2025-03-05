@@ -4,9 +4,8 @@
   left: 0;
   z-index: 700;
   background-color: #fff;
-  width: 100%;
-  max-width: 480px;
-  overflow: hidden;
+  width: 100vw;
+  overflow-y: scroll;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -21,6 +20,7 @@
     transform: translate(-50%, -50%);
     overflow-y: scroll;
     scrollbar-width: none;
+    max-width: 480px;
   }
 }
 
