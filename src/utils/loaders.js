@@ -116,10 +116,11 @@ export async function singlePostLoader({ params }) {
 export async function searchLoader({ request }) {
   const url = new URL(request.url);
   const searchTerm = url.searchParams.get('q');
+  const encode = encodeURIComponent(searchTerm);
 
   if (!searchTerm) return [];
 
-  const req = async () => handleData(`posts/tag?tagName=${searchTerm}`);
+  const req = async () => handleData(`posts/tag?tagName=${encode}`);
   const resp = await verifyTokenOnRequest(req);
 
   if (!resp) {

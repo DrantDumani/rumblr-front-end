@@ -236,7 +236,7 @@ export const Post = forwardRef(function Post(
             {post.tags.map((tag) => (
               <Link
                 key={tag.id}
-                to={`/search?q=${tag.content}`}
+                to={`/search?q=${encodeURIComponent(tag.content)}`}
                 className={styles.post__tag}
               >
                 #{tag.content}
